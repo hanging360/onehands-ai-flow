@@ -110,7 +110,7 @@ export const NetworkBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-0"
+      className="fixed inset-0 w-full h-full pointer-events-none z-20 opacity-30 mix-blend-soft-light"
       style={{ background: 'transparent' }}
     />
   );
