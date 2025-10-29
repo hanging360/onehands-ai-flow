@@ -20,7 +20,12 @@ export const Footer = () => {
               <a href="#" className="hover:text-primary transition-colors">
                 {t('footer.terms')}
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              <a 
+                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.contactUs'))}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
                 {t('footer.contact')}
               </a>
             </div>
