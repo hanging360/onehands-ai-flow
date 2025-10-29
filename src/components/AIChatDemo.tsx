@@ -136,7 +136,7 @@ export const AIChatDemo = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section id="ai-demo" className="py-16 md:py-24 bg-background">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">

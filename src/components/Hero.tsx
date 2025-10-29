@@ -73,15 +73,11 @@ export const Hero = () => {
               size="lg" 
               variant="outline" 
               className="shadow-soft"
-              asChild
+              onClick={() => {
+                document.getElementById('ai-demo')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
-              <a 
-                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.scheduleDemo'))}`}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                {t('hero.scheduleDemo')}
-              </a>
+              {t('hero.scheduleDemo')}
             </Button>
           </div>
 

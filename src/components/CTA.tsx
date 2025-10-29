@@ -21,16 +21,12 @@ export const CTA = () => {
               size="lg" 
               variant="secondary"
               className="group shadow-large hover:shadow-xl transition-all"
-              asChild
+              onClick={() => {
+                document.getElementById('ai-demo')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
-              <a 
-                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.scheduleDemo'))}`}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                {t('cta.scheduleDemo')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              {t('cta.scheduleDemo')}
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
               size="lg" 
