@@ -168,6 +168,45 @@
   "whatsappMessages": {
     "getStarted": "Hello, I'm interested in OneHands.ai",
     "scheduleDemo": "I would like to schedule a demo of OneHands.ai",
-    "contactUs": "Hello, I would like more information about OneHands.ai"
+    "contactUs": "Hello, I would like more information about OneHands.ai",
+    "aiConsultation": "Hello! I want to learn why my business needs a dedicated AI now. Can we schedule a consultation?"
+  },
+  "aiValue": {
+    "badge": "The Future is Now",
+    "title": "Why Your Business Needs Dedicated AI Today",
+    "subtitle": "In a rapidly evolving market, AI isn't just an advantage—it's a necessity. Discover how a dedicated AI system transforms your business operations and future-proofs your competitive edge.",
+    "benefit1": {
+      "title": "24/7 Intelligent Operations",
+      "description": "Your AI never sleeps. It handles customer inquiries, processes orders, and manages tasks around the clock, ensuring your business is always responsive and efficient."
+    },
+    "benefit2": {
+      "title": "Scalability Without Limits",
+      "description": "As your business grows, your AI grows with you. Handle 10 or 10,000 customers with the same level of personalized attention, without hiring proportionally."
+    },
+    "benefit3": {
+      "title": "Immediate ROI & Cost Reduction",
+      "description": "Reduce operational costs by up to 60% while improving service quality. Most businesses see positive ROI within the first 3 months of AI implementation."
+    },
+    "benefit4": {
+      "title": "Future-Proof Your Business",
+      "description": "Companies that adopt AI now gain an insurmountable competitive advantage. Don't wait until your competitors have already captured your market share."
+    },
+    "cta": {
+      "title": "Don't Get Left Behind",
+      "description": "The businesses that thrive tomorrow are investing in AI today. Schedule a free consultation and discover how dedicated AI can transform your business in weeks, not years.",
+      "button": "Get Your AI Strategy Now"
+    },
+    "stat1": {
+      "number": "3x",
+      "label": "Average productivity increase"
+    },
+    "stat2": {
+      "number": "60%",
+      "label": "Cost reduction achieved"
+    },
+    "stat3": {
+      "number": "90 days",
+      "label": "Average time to ROI"
+    }
   }
 }

@@ -168,6 +168,45 @@
   "whatsappMessages": {
     "getStarted": "Hola, estoy interesado en OneHands.ai",
     "scheduleDemo": "Me gustaría agendar una demo de OneHands.ai",
-    "contactUs": "Hola, me gustaría más información sobre OneHands.ai"
+    "contactUs": "Hola, me gustaría más información sobre OneHands.ai",
+    "aiConsultation": "¡Hola! Quiero conocer por qué mi negocio necesita una IA dedicada ahora. ¿Podemos agendar una consulta?"
+  },
+  "aiValue": {
+    "badge": "El Futuro es Ahora",
+    "title": "Por Qué Tu Negocio Necesita IA Dedicada Hoy",
+    "subtitle": "En un mercado en rápida evolución, la IA no es solo una ventaja—es una necesidad. Descubre cómo un sistema de IA dedicado transforma tus operaciones y asegura tu ventaja competitiva.",
+    "benefit1": {
+      "title": "Operaciones Inteligentes 24/7",
+      "description": "Tu IA nunca duerme. Atiende consultas de clientes, procesa pedidos y gestiona tareas las 24 horas, asegurando que tu negocio siempre sea receptivo y eficiente."
+    },
+    "benefit2": {
+      "title": "Escalabilidad Sin Límites",
+      "description": "A medida que tu negocio crece, tu IA crece contigo. Atiende 10 o 10,000 clientes con el mismo nivel de atención personalizada, sin necesidad de contratar proporcionalmente."
+    },
+    "benefit3": {
+      "title": "ROI Inmediato y Reducción de Costos",
+      "description": "Reduce los costos operativos hasta en un 60% mientras mejoras la calidad del servicio. La mayoría de las empresas ven ROI positivo dentro de los primeros 3 meses de implementación de IA."
+    },
+    "benefit4": {
+      "title": "Asegura el Futuro de Tu Negocio",
+      "description": "Las empresas que adoptan IA ahora ganan una ventaja competitiva insuperable. No esperes hasta que tus competidores ya hayan capturado tu cuota de mercado."
+    },
+    "cta": {
+      "title": "No Te Quedes Atrás",
+      "description": "Los negocios que prosperan mañana están invirtiendo en IA hoy. Agenda una consulta gratuita y descubre cómo la IA dedicada puede transformar tu negocio en semanas, no años.",
+      "button": "Obtén Tu Estrategia de IA Ahora"
+    },
+    "stat1": {
+      "number": "3x",
+      "label": "Aumento promedio de productividad"
+    },
+    "stat2": {
+      "number": "60%",
+      "label": "Reducción de costos lograda"
+    },
+    "stat3": {
+      "number": "90 días",
+      "label": "Tiempo promedio hasta ROI"
+    }
   }
 }

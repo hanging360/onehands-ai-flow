@@ -1,6 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Code2, Puzzle, Zap, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import n8nImage from "@/assets/tech-n8n-workflow.png";
+import apiImage from "@/assets/tech-api-integrations.png";
+import aiImage from "@/assets/tech-ai-processing.png";
+import securityImage from "@/assets/tech-security.png";
 
 export const TechnicalDevelopment = () => {
   const { t } = useTranslation();
@@ -10,21 +14,25 @@ export const TechnicalDevelopment = () => {
       icon: Code2,
       titleKey: "technical.n8n.title",
       descriptionKey: "technical.n8n.description",
+      image: n8nImage,
     },
     {
       icon: Puzzle,
       titleKey: "technical.api.title",
       descriptionKey: "technical.api.description",
+      image: apiImage,
     },
     {
       icon: Zap,
       titleKey: "technical.ai.title",
       descriptionKey: "technical.ai.description",
+      image: aiImage,
     },
     {
       icon: Shield,
       titleKey: "technical.security.title",
       descriptionKey: "technical.security.description",
+      image: securityImage,
     }
   ];
 
@@ -46,8 +54,15 @@ export const TechnicalDevelopment = () => {
             return (
               <Card
                 key={index}
-                className="p-8 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-medium"
+                className="p-8 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-medium overflow-hidden"
               >
+                <div className="mb-6 w-full h-48 rounded-lg overflow-hidden">
+                  <img 
+                    src={feature.image} 
+                    alt={t(feature.titleKey)}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div className="mb-4 w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-accent-foreground/10 flex items-center justify-center">
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
