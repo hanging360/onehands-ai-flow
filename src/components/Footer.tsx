@@ -1,5 +1,5 @@
-import logo from "@/assets/onehands-logo-complete.png";
 import { useTranslation } from "react-i18next";
+import { OneHandsLogo } from "./OneHandsLogo";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -10,7 +10,7 @@ export const Footer = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-4">
-              <img src={logo} alt="OneHands.ai" className="h-10 w-auto" />
+              <OneHandsLogo className="h-10 w-auto" />
             </div>
             
             <div className="flex flex-col md:flex-row items-center gap-6 text-sm text-muted-foreground">

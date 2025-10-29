@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
-import logo from "@/assets/onehands-logo-complete.png";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { OneHandsLogo } from "./OneHandsLogo";
 
 export const Hero = () => {
   const { t } = useTranslation();
@@ -24,11 +24,7 @@ export const Hero = () => {
         <div className="max-w-5xl mx-auto text-center space-y-8">
           {/* Logo */}
           <div className="flex justify-center mb-8 animate-fade-in">
-            <img 
-              src={logo} 
-              alt="OneHands.ai Logo" 
-              className="h-16 md:h-20 w-auto drop-shadow-lg"
-            />
+            <OneHandsLogo className="h-16 md:h-20 w-auto drop-shadow-lg" />
           </div>
 
           {/* Badge */}
