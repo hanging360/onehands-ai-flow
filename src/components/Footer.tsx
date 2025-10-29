@@ -27,7 +27,7 @@ export const Footer = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            <p>{t('footer.copyright')}</p>
+            <p>Powered by hanging360.llc</p>
           </div>
         </div>
       </div>
