@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,12 +13,42 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, sessionId } = await req.json();
     console.log('Received messages:', messages);
+    console.log('Session ID:', sessionId);
+
+    // Initialize Supabase client with service role
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
+    }
+
+    // Get historical insights to improve responses
+    let historicalContext = '';
+    try {
+      const { data: insights, error } = await supabase
+        .from('conversation_insights')
+        .select('industry, automation_complexity, estimated_hours, key_technologies')
+        .limit(10)
+        .order('created_at', { ascending: false });
+
+      if (insights && insights.length > 0) {
+        const avgHours = insights.reduce((sum, i) => sum + (i.estimated_hours || 0), 0) / insights.length;
+        const commonIndustries = [...new Set(insights.map(i => i.industry).filter(Boolean))];
+        const commonTechs = [...new Set(insights.flatMap(i => i.key_technologies || []))];
+        
+        historicalContext = `\n\nBased on ${insights.length} previous consultations:
+- Average project duration: ${avgHours.toFixed(0)} hours
+- Common industries: ${commonIndustries.join(', ')}
+- Frequently used technologies: ${commonTechs.slice(0, 5).join(', ')}
+Use this context to provide more accurate estimates and recommendations.`;
+      }
+    } catch (error) {
+      console.error('Error fetching historical insights:', error);
     }
 
     // Call Lovable AI Gateway
@@ -32,7 +63,7 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are a workflow automation consultant AI for OneHands.ai. ALWAYS respond in the same language the user writes to you (English, Spanish, etc.).
+            content: `You are a workflow automation consultant AI for OneHands.ai. ALWAYS respond in the same language the user writes to you (English, Spanish, etc.).${historicalContext}
 
 Your mission is to understand their business workflow and evaluate automation possibilities.
 
@@ -53,6 +84,9 @@ Step 3: [Output/Result] → [What happens]
 • [Benefit 1]
 • [Benefit 2]
 • [Benefit 3]
+
+💰 Estimated Budget: $[amount] - $[amount] USD
+⏱️ Estimated Time: [X-Y] weeks
 
 Be conversational and natural. Keep responses concise (under 150 words). Ask follow-up questions to understand deeply. Use their name when appropriate to create a personal connection.
 
@@ -101,6 +135,13 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
       throw new Error(`AI Gateway error: ${response.status}`);
     }
 
+    // Save conversation asynchronously (don't wait for it)
+    if (sessionId) {
+      saveConversation(supabase, sessionId, messages).catch(err => 
+        console.error('Error saving conversation:', err)
+      );
+    }
+
     // Return the streaming response
     return new Response(response.body, {
       headers: {
@@ -121,3 +162,95 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
     );
   }
 });
+
+// Function to save conversation to database
+async function saveConversation(supabase: any, sessionId: string, messages: any[]) {
+  try {
+    // Extract user name from messages if available
+    let userName = null;
+    let businessInfo = null;
+    let workflowProposal = null;
+    
+    for (const msg of messages) {
+      if (msg.role === 'assistant' && msg.content.includes('📋 WORKFLOW PROPOSAL')) {
+        workflowProposal = msg.content;
+      }
+    }
+
+    // Check if conversation exists
+    const { data: existing } = await supabase
+      .from('conversations')
+      .select('id, messages')
+      .eq('session_id', sessionId)
+      .single();
+
+    if (existing) {
+      // Update existing conversation
+      await supabase
+        .from('conversations')
+        .update({
+          messages: messages,
+          workflow_proposal: workflowProposal || existing.workflow_proposal
+        })
+        .eq('id', existing.id);
+    } else {
+      // Create new conversation
+      const { data: newConv } = await supabase
+        .from('conversations')
+        .insert({
+          session_id: sessionId,
+          messages: messages,
+          workflow_proposal: workflowProposal
+        })
+        .select()
+        .single();
+
+      // Analyze and create insights if we have enough data
+      if (messages.length >= 4) {
+        analyzeAndSaveInsights(supabase, newConv.id, messages).catch(err =>
+          console.error('Error analyzing conversation:', err)
+        );
+      }
+    }
+  } catch (error) {
+    console.error('Error in saveConversation:', error);
+  }
+}
+
+// Function to analyze conversation and extract insights
+async function analyzeAndSaveInsights(supabase: any, conversationId: string, messages: any[]) {
+  try {
+    // Simple pattern matching to extract insights
+    const conversationText = messages.map(m => m.content).join(' ').toLowerCase();
+    
+    let industry = null;
+    const industries = ['real estate', 'retail', 'healthcare', 'finance', 'education', 'manufacturing'];
+    for (const ind of industries) {
+      if (conversationText.includes(ind)) {
+        industry = ind;
+        break;
+      }
+    }
+
+    let complexity = 'medium';
+    if (conversationText.includes('simple') || conversationText.includes('basic')) {
+      complexity = 'low';
+    } else if (conversationText.includes('complex') || conversationText.includes('advanced')) {
+      complexity = 'high';
+    }
+
+    const estimatedHours = complexity === 'low' ? 40 : complexity === 'medium' ? 80 : 120;
+
+    await supabase
+      .from('conversation_insights')
+      .insert({
+        conversation_id: conversationId,
+        industry,
+        automation_complexity: complexity,
+        estimated_hours: estimatedHours,
+        key_technologies: ['n8n', 'AI', 'API Integration']
+      });
+  } catch (error) {
+    console.error('Error in analyzeAndSaveInsights:', error);
+  }
+}

@@ -14,7 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      conversation_insights: {
+        Row: {
+          automation_complexity: string | null
+          conversation_id: string
+          created_at: string
+          estimated_hours: number | null
+          id: string
+          industry: string | null
+          key_technologies: string[] | null
+          pain_points: string[] | null
+          similar_cases_count: number | null
+        }
+        Insert: {
+          automation_complexity?: string | null
+          conversation_id: string
+          created_at?: string
+          estimated_hours?: number | null
+          id?: string
+          industry?: string | null
+          key_technologies?: string[] | null
+          pain_points?: string[] | null
+          similar_cases_count?: number | null
+        }
+        Update: {
+          automation_complexity?: string | null
+          conversation_id?: string
+          created_at?: string
+          estimated_hours?: number | null
+          id?: string
+          industry?: string | null
+          key_technologies?: string[] | null
+          pain_points?: string[] | null
+          similar_cases_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_insights_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          business_info: Json | null
+          created_at: string
+          estimated_budget: number | null
+          id: string
+          messages: Json
+          session_id: string
+          updated_at: string
+          user_contact: string | null
+          user_name: string | null
+          workflow_proposal: string | null
+        }
+        Insert: {
+          business_info?: Json | null
+          created_at?: string
+          estimated_budget?: number | null
+          id?: string
+          messages?: Json
+          session_id: string
+          updated_at?: string
+          user_contact?: string | null
+          user_name?: string | null
+          workflow_proposal?: string | null
+        }
+        Update: {
+          business_info?: Json | null
+          created_at?: string
+          estimated_budget?: number | null
+          id?: string
+          messages?: Json
+          session_id?: string
+          updated_at?: string
+          user_contact?: string | null
+          user_name?: string | null
+          workflow_proposal?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

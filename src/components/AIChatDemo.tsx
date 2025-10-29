@@ -12,7 +12,13 @@ interface Message {
   content: string;
 }
 
+// Generate unique session ID for conversation tracking
+const generateSessionId = () => {
+  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+};
+
 export const AIChatDemo = () => {
+  const [sessionId] = useState(() => generateSessionId());
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -83,6 +89,7 @@ export const AIChatDemo = () => {
               role: m.role,
               content: m.content,
             })),
+            sessionId: sessionId,
             clientName: clientName || input.trim(),
           }),
         }
