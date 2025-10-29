@@ -6,6 +6,7 @@ import { AIValueProposition } from "@/components/AIValueProposition";
 import { BusinessBenefits } from "@/components/BusinessBenefits";
 import { Integrations } from "@/components/Integrations";
 import { WorkflowDiagram } from "@/components/WorkflowDiagram";
+import { AIChatDemo } from "@/components/AIChatDemo";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
@@ -20,6 +21,7 @@ const Index = () => {
       <BusinessBenefits />
       <Integrations />
       <WorkflowDiagram />
+      <AIChatDemo />
       <CTA />
       <Footer />
     </main>
