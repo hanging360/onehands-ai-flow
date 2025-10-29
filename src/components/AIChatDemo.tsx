@@ -187,32 +187,26 @@ export const AIChatDemo = () => {
   };
 
   return (
-    <section id="ai-demo" className="py-16 md:py-24 bg-gradient-to-b from-[#075E54] to-[#128C7E] relative overflow-hidden">
-      {/* WhatsApp pattern background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-        }} />
-      </div>
-      
-      <div className="container px-4 mx-auto relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-semibold mb-4 backdrop-blur">
+    <section id="ai-demo" className="py-12 md:py-16 bg-background">
+      <div className="container px-4 mx-auto">
+        <div className="max-w-2xl mx-auto text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
             <Bot className="w-4 h-4" />
             Live AI Demo
           </div>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
             Try Our AI Assistant
           </h2>
-          <p className="text-base md:text-lg text-white/90">
-            Experience the power of AI automation in real-time. Ask questions and see instant intelligent responses.
+          <p className="text-sm md:text-base text-muted-foreground">
+            Experience the power of AI automation in real-time
           </p>
         </div>
 
-        {/* WhatsApp-style container */}
+        {/* WhatsApp-style container with gradient background */}
         <div className="max-w-md mx-auto relative">
-          {/* Phone mockup effect */}
-          <div className="absolute -inset-8 bg-gradient-to-b from-white/5 to-transparent rounded-[3rem] blur-xl" />
+          {/* Compact gradient background */}
+          <div className="absolute -inset-4 bg-gradient-to-b from-[#075E54] via-[#128C7E] to-transparent rounded-[2.5rem] opacity-20 blur-2xl" />
+          <div className="absolute -inset-2 bg-gradient-to-b from-[#075E54]/30 to-[#128C7E]/30 rounded-[2.5rem]" />
           
           <Card className="relative border-4 border-white/10 shadow-2xl bg-white rounded-3xl overflow-hidden">
             {/* WhatsApp header */}
