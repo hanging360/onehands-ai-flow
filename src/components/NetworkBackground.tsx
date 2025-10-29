@@ -46,8 +46,8 @@ export const NetworkBackground = () => {
         .trim();
       
       // Draw connections
-      ctx.strokeStyle = `hsl(${primaryColor} / 0.05)`;
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = `hsl(${primaryColor} / 0.2)`;
+      ctx.lineWidth = 1.5;
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
@@ -59,14 +59,14 @@ export const NetworkBackground = () => {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.globalAlpha = (1 - distance / 150) * 0.3;
+            ctx.globalAlpha = (1 - distance / 150) * 0.5;
             ctx.stroke();
           }
         }
       }
 
       // Draw particles
-      ctx.fillStyle = `hsl(${primaryColor} / 0.15)`;
+      ctx.fillStyle = `hsl(${primaryColor} / 0.4)`;
       ctx.globalAlpha = 1;
       
       particles.forEach(particle => {
