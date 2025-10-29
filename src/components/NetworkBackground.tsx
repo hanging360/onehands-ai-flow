@@ -25,7 +25,8 @@ export const NetworkBackground = () => {
 
     const createParticles = () => {
       particles = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+      const particleCount = Math.floor((canvas.width * canvas.height) / 9000);
+      console.log('[NetworkBackground] particles:', particleCount);
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -39,6 +40,7 @@ export const NetworkBackground = () => {
 
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
       
       // Get CSS variable for primary color
       const primaryColor = getComputedStyle(document.documentElement)
@@ -47,7 +49,7 @@ export const NetworkBackground = () => {
       
       // Draw connections
       ctx.strokeStyle = `hsl(${primaryColor} / 0.2)`;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.2;
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
@@ -55,23 +57,23 @@ export const NetworkBackground = () => {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < 200) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.globalAlpha = (1 - distance / 150) * 0.5;
+            ctx.globalAlpha = (1 - distance / 200) * 0.7;
             ctx.stroke();
           }
         }
       }
 
       // Draw particles
-      ctx.fillStyle = `hsl(${primaryColor} / 0.4)`;
+      ctx.fillStyle = `hsl(${primaryColor} / 0.6)`;
       ctx.globalAlpha = 1;
       
       particles.forEach(particle => {
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
     };
@@ -96,21 +98,22 @@ export const NetworkBackground = () => {
     createParticles();
     animate();
 
-    window.addEventListener('resize', () => {
+    const onResize = () => {
       resize();
       createParticles();
-    });
+    };
+    window.addEventListener('resize', onResize);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-20 opacity-30 mix-blend-soft-light"
+      className="fixed inset-0 w-full h-full pointer-events-none z-20"
       style={{ background: 'transparent' }}
     />
   );
