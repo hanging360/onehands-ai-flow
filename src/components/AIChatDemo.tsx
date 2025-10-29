@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, Send, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import whatsappMockup from "@/assets/whatsapp-mockup.png";
 
 interface Message {
   role: "user" | "assistant";
@@ -186,83 +187,102 @@ export const AIChatDemo = () => {
   };
 
   return (
-    <section id="ai-demo" className="py-16 md:py-24 bg-background">
-      <div className="container px-4 mx-auto">
+    <section id="ai-demo" className="py-16 md:py-24 bg-gradient-to-b from-[#075E54] to-[#128C7E] relative overflow-hidden">
+      {/* WhatsApp pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+        }} />
+      </div>
+      
+      <div className="container px-4 mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-semibold mb-4 backdrop-blur">
             <Bot className="w-4 h-4" />
             Live AI Demo
           </div>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Try Our AI Assistant
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground">
+          <p className="text-base md:text-lg text-white/90">
             Experience the power of AI automation in real-time. Ask questions and see instant intelligent responses.
           </p>
         </div>
 
-        <Card className="max-w-3xl mx-auto border-border shadow-large">
-          <ScrollArea ref={scrollAreaRef} className="h-[250px] md:h-[400px] p-4 md:p-6">
-            <div className="space-y-4">
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex gap-3 ${
-                    message.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-foreground flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-4 h-4 text-white" />
-                    </div>
-                  )}
-                  <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground"
-                    }`}
-                  >
-                    <p className="text-sm md:text-base whitespace-pre-wrap">
-                      {message.content}
-                    </p>
-                  </div>
-                  {message.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                      <User className="w-4 h-4 text-foreground" />
-                    </div>
-                  )}
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-foreground flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="bg-muted rounded-2xl px-4 py-3">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <div className="w-2 h-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <div className="w-2 h-2 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
-                    </div>
-                  </div>
-                </div>
-              )}
+        {/* WhatsApp-style container */}
+        <div className="max-w-md mx-auto relative">
+          {/* Phone mockup effect */}
+          <div className="absolute -inset-8 bg-gradient-to-b from-white/5 to-transparent rounded-[3rem] blur-xl" />
+          
+          <Card className="relative border-4 border-white/10 shadow-2xl bg-white rounded-3xl overflow-hidden">
+            {/* WhatsApp header */}
+            <div className="bg-[#075E54] text-white p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur">
+                <Bot className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold">OneHands AI Assistant</h3>
+                <p className="text-xs text-white/80">Online</p>
+              </div>
             </div>
-          </ScrollArea>
 
-          <div className="border-t border-border p-4">
+            {/* WhatsApp chat pattern background */}
+            <div className="bg-[#ECE5DD] relative" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='%23ece5dd'/%3E%3Cpath d='M20 20h60v60H20z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E")`,
+            }}>
+              <ScrollArea ref={scrollAreaRef} className="h-[200px] p-4">
+                <div className="space-y-3">
+                  {messages.map((message, index) => (
+                    <div
+                      key={index}
+                      className={`flex gap-2 ${
+                        message.role === "user" ? "justify-end" : "justify-start"
+                      }`}
+                    >
+                      <div
+                        className={`max-w-[75%] rounded-lg px-3 py-2 shadow-sm ${
+                          message.role === "user"
+                            ? "bg-[#DCF8C6] text-gray-900 rounded-br-none"
+                            : "bg-white text-gray-900 rounded-bl-none"
+                        }`}
+                      >
+                        <p className="text-sm whitespace-pre-wrap break-words">
+                          {message.content}
+                        </p>
+                        <p className="text-[10px] text-gray-500 mt-1 text-right">
+                          {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="flex gap-2 justify-start">
+                      <div className="bg-white rounded-lg rounded-bl-none px-3 py-2 shadow-sm">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
+
+          {/* WhatsApp input area */}
+          <div className="bg-[#F0F0F0] p-3 border-t border-gray-200">
             {showExamples && messages.length === 1 && (
-              <div className="mb-3">
-                <p className="text-xs text-muted-foreground mb-2">Try asking:</p>
-                <div className="flex flex-wrap gap-2">
+              <div className="mb-2">
+                <p className="text-xs text-gray-600 mb-2">Try asking:</p>
+                <div className="flex flex-wrap gap-1.5">
                   {exampleQuestions.map((question, index) => (
                     <Button
                       key={index}
                       variant="outline"
                       size="sm"
                       onClick={() => handleExampleClick(question)}
-                      className="text-xs h-auto py-1.5 px-3"
+                      className="text-xs h-auto py-1 px-2 bg-white hover:bg-gray-50 text-gray-700 border-gray-300"
                     >
                       {question}
                     </Button>
@@ -275,21 +295,22 @@ export const AIChatDemo = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me anything..."
+                placeholder="Type a message..."
                 disabled={isLoading}
-                className="flex-1"
+                className="flex-1 bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
               />
               <Button
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
                 size="icon"
-                className="flex-shrink-0"
+                className="flex-shrink-0 bg-[#25D366] hover:bg-[#20BD5C] text-white"
               >
                 <Send className="w-4 h-4" />
               </Button>
             </div>
           </div>
-        </Card>
+          </Card>
+        </div>
       </div>
     </section>
   );
