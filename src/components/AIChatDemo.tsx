@@ -217,7 +217,7 @@ export const AIChatDemo = () => {
         </div>
 
         {/* WhatsApp-style container with gradient background */}
-        <div className="max-w-md mx-auto relative">
+        <div className="max-w-md md:max-w-3xl lg:max-w-4xl mx-auto relative">
           {/* Compact gradient background */}
           <div className="absolute -inset-4 bg-gradient-to-b from-[#075E54] via-[#128C7E] to-transparent rounded-[2.5rem] opacity-20 blur-2xl" />
           <div className="absolute -inset-2 bg-gradient-to-b from-[#075E54]/30 to-[#128C7E]/30 rounded-[2.5rem]" />
@@ -238,7 +238,7 @@ export const AIChatDemo = () => {
             <div className="bg-[#ECE5DD] relative" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='%23ece5dd'/%3E%3Cpath d='M20 20h60v60H20z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E")`,
             }}>
-              <ScrollArea ref={scrollAreaRef} className="h-[200px] p-4">
+              <ScrollArea ref={scrollAreaRef} className="h-[200px] md:h-[400px] lg:h-[450px] p-4">
                 <div className="space-y-3">
                   {messages.map((message, index) => (
                     <div
