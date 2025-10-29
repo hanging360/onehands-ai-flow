@@ -15,7 +15,7 @@ export const AIChatDemo = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm here to learn about your business and help you discover how AI automation can transform it. Let's start - what kind of project or challenge are you looking to solve?",
+      content: "Hello! I'm here to understand your business workflow and help identify automation opportunities. Let's start - what does your company do and what processes would you like to automate?",
     },
   ]);
   const [input, setInput] = useState("");
