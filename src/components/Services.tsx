@@ -1,49 +1,52 @@
 import { Card } from "@/components/ui/card";
 import { MessageSquare, Calendar, Share2, FolderOpen, Workflow, Bot } from "lucide-react";
-
-const services = [
-  {
-    icon: MessageSquare,
-    title: "WhatsApp Automation",
-    description: "Intelligent chatbots and automated messaging workflows for customer engagement and support.",
-  },
-  {
-    icon: Calendar,
-    title: "Smart Scheduling",
-    description: "AI-powered appointment booking and calendar management that adapts to your business needs.",
-  },
-  {
-    icon: Share2,
-    title: "Social Media Management",
-    description: "Automated posts, comment management, and engagement tracking across all platforms.",
-  },
-  {
-    icon: FolderOpen,
-    title: "Document Processing",
-    description: "Intelligent file and folder management with AI-powered organization and retrieval.",
-  },
-  {
-    icon: Workflow,
-    title: "Custom Workflows",
-    description: "Build complex automation flows connecting all your business tools and processes.",
-  },
-  {
-    icon: Bot,
-    title: "AI Assistants",
-    description: "Deploy intelligent AI assistants powered by ChatGPT for any business function.",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export const Services = () => {
+  const { t } = useTranslation();
+
+  const services = [
+    {
+      icon: MessageSquare,
+      titleKey: "services.whatsapp.title",
+      descriptionKey: "services.whatsapp.description",
+    },
+    {
+      icon: Calendar,
+      titleKey: "services.scheduling.title",
+      descriptionKey: "services.scheduling.description",
+    },
+    {
+      icon: Share2,
+      titleKey: "services.social.title",
+      descriptionKey: "services.social.description",
+    },
+    {
+      icon: FolderOpen,
+      titleKey: "services.documents.title",
+      descriptionKey: "services.documents.description",
+    },
+    {
+      icon: Workflow,
+      titleKey: "services.workflows.title",
+      descriptionKey: "services.workflows.description",
+    },
+    {
+      icon: Bot,
+      titleKey: "services.assistants.title",
+      descriptionKey: "services.assistants.description",
+    },
+  ];
+
   return (
     <section className="py-24 bg-background">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Complete AI Automation Suite
+            {t('services.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Everything you need to automate and scale your business operations with artificial intelligence.
+            {t('services.subtitle')}
           </p>
         </div>
 
@@ -59,10 +62,10 @@ export const Services = () => {
                   <Icon className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {service.title}
+                  {t(service.titleKey)}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {service.description}
+                  {t(service.descriptionKey)}
                 </p>
               </Card>
             );

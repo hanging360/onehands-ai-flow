@@ -1,10 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import logo from "@/assets/onehands-logo-digital.png";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const Hero = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-accent to-background">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageSwitcher />
+      </div>
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -26,22 +35,22 @@ export const Hero = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-soft animate-fade-in-up delay-100">
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-muted-foreground">
-              Powered by Advanced AI Technology
+              {t('hero.badge')}
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight animate-fade-in-up delay-200">
-            Automate Your Business
+            {t('hero.headline')}
             <br />
             <span className="bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
-              With AI Intelligence
+              {t('hero.headlineHighlight')}
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-300">
-            Transform your business operations with intelligent automation. From WhatsApp and social media to calendars and workflows - all powered by ChatGPT and cutting-edge AI.
+            {t('hero.subheadline')}
           </p>
 
           {/* CTA Buttons */}
@@ -52,11 +61,11 @@ export const Hero = () => {
               asChild
             >
               <a 
-                href="https://wa.me/17869606797?text=Hola,%20estoy%20interesado%20en%20OneHands.ai" 
+                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.getStarted'))}`}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                Get Started
+                {t('hero.getStarted')}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
@@ -67,11 +76,11 @@ export const Hero = () => {
               asChild
             >
               <a 
-                href="https://wa.me/17869606797?text=Me%20gustaría%20agendar%20una%20demo%20de%20OneHands.ai" 
+                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.scheduleDemo'))}`}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                Schedule Demo
+                {t('hero.scheduleDemo')}
               </a>
             </Button>
           </div>
@@ -80,15 +89,15 @@ export const Hero = () => {
           <div className="pt-8 flex flex-wrap justify-center items-center gap-6 text-sm text-muted-foreground animate-fade-in-up delay-500">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span>ChatGPT Powered</span>
+              <span>{t('hero.trust1')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span>Enterprise Ready</span>
+              <span>{t('hero.trust2')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span>24/7 Automation</span>
+              <span>{t('hero.trust3')}</span>
             </div>
           </div>
         </div>

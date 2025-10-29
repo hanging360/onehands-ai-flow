@@ -3,53 +3,56 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import flowStep1 from "@/assets/flow-step-1.png";
 import flowStep2 from "@/assets/flow-step-2.png";
 import flowStep3 from "@/assets/flow-step-3.png";
-
-const workflowSteps = [
-  {
-    number: "01",
-    title: "Conexión Inteligente",
-    description: "El cliente interactúa con tu negocio a través de WhatsApp, redes sociales o web. Nuestro AI captura y procesa cada interacción.",
-    image: flowStep1,
-    features: [
-      "Respuestas automáticas 24/7",
-      "Procesamiento de lenguaje natural",
-      "Múltiples canales integrados"
-    ]
-  },
-  {
-    number: "02",
-    title: "Automatización Inteligente",
-    description: "El flujo de trabajo AI procesa la información, programa citas, gestiona documentos y ejecuta tareas complejas sin intervención humana.",
-    image: flowStep2,
-    features: [
-      "Sincronización con calendarios",
-      "Gestión automática de archivos",
-      "Flujos de trabajo personalizados"
-    ]
-  },
-  {
-    number: "03",
-    title: "Resultados Medibles",
-    description: "Obtén análisis completos, publicaciones automatizadas en redes sociales y seguimiento de todas las interacciones desde un solo dashboard.",
-    image: flowStep3,
-    features: [
-      "Analytics en tiempo real",
-      "Reportes automáticos",
-      "ROI optimizado"
-    ]
-  }
-];
+import { useTranslation } from "react-i18next";
 
 export const WorkflowSection = () => {
+  const { t } = useTranslation();
+
+  const workflowSteps = [
+    {
+      numberKey: "workflow.step1.number",
+      titleKey: "workflow.step1.title",
+      descriptionKey: "workflow.step1.description",
+      image: flowStep1,
+      featuresKeys: [
+        "workflow.step1.feature1",
+        "workflow.step1.feature2",
+        "workflow.step1.feature3"
+      ]
+    },
+    {
+      numberKey: "workflow.step2.number",
+      titleKey: "workflow.step2.title",
+      descriptionKey: "workflow.step2.description",
+      image: flowStep2,
+      featuresKeys: [
+        "workflow.step2.feature1",
+        "workflow.step2.feature2",
+        "workflow.step2.feature3"
+      ]
+    },
+    {
+      numberKey: "workflow.step3.number",
+      titleKey: "workflow.step3.title",
+      descriptionKey: "workflow.step3.description",
+      image: flowStep3,
+      featuresKeys: [
+        "workflow.step3.feature1",
+        "workflow.step3.feature2",
+        "workflow.step3.feature3"
+      ]
+    }
+  ];
+
   return (
     <section className="py-24 bg-background">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Cómo Funciona Nuestro Sistema
+            {t('workflow.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Un flujo de trabajo automatizado diseñado para transformar cada interacción en resultados empresariales
+            {t('workflow.subtitle')}
           </p>
         </div>
 
@@ -67,7 +70,7 @@ export const WorkflowSection = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent-foreground/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                   <img
                     src={step.image}
-                    alt={step.title}
+                    alt={t(step.titleKey)}
                     className="relative w-full rounded-2xl shadow-large border border-border"
                   />
                 </div>
@@ -77,22 +80,22 @@ export const WorkflowSection = () => {
               <div className="flex-1 w-full">
                 <div className="space-y-6">
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent-foreground text-primary-foreground text-2xl font-bold shadow-medium">
-                    {step.number}
+                    {t(step.numberKey)}
                   </div>
                   
                   <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-                    {step.title}
+                    {t(step.titleKey)}
                   </h3>
                   
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    {step.description}
+                    {t(step.descriptionKey)}
                   </p>
 
                   <div className="space-y-3 pt-4">
-                    {step.features.map((feature, featureIndex) => (
+                    {step.featuresKeys.map((featureKey, featureIndex) => (
                       <div key={featureIndex} className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="text-foreground">{feature}</span>
+                        <span className="text-foreground">{t(featureKey)}</span>
                       </div>
                     ))}
                   </div>

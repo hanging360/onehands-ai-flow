@@ -1,17 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const CTA = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="py-24 bg-gradient-to-br from-primary to-accent-foreground text-primary-foreground">
       <div className="container px-4 mx-auto">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-            Ready to Transform Your Business?
+            {t('cta.title')}
           </h2>
           <p className="text-lg md:text-xl opacity-90 leading-relaxed">
-            Join forward-thinking companies automating their operations with AI. 
-            Schedule a demo and see how OneHands.ai can revolutionize your workflows.
+            {t('cta.subtitle')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
@@ -22,11 +24,11 @@ export const CTA = () => {
               asChild
             >
               <a 
-                href="https://wa.me/17869606797?text=Me%20gustaría%20agendar%20una%20demo%20de%20OneHands.ai" 
+                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.scheduleDemo'))}`}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                Schedule Demo
+                {t('cta.scheduleDemo')}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
@@ -37,30 +39,30 @@ export const CTA = () => {
               asChild
             >
               <a 
-                href="https://wa.me/17869606797?text=Hola,%20me%20gustaría%20más%20información%20sobre%20OneHands.ai" 
+                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.contactUs'))}`}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
                 <Mail className="mr-2 w-5 h-5" />
-                Contact Us
+                {t('cta.contactUs')}
               </a>
             </Button>
           </div>
 
           <div className="pt-8 flex flex-wrap justify-center gap-8 text-sm opacity-75">
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">24/7</div>
-              <div>Automation</div>
+              <div className="text-2xl font-bold">{t('cta.stat1')}</div>
+              <div>{t('cta.stat1Label')}</div>
             </div>
             <div className="w-px bg-primary-foreground/20" />
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">100+</div>
-              <div>Integrations</div>
+              <div className="text-2xl font-bold">{t('cta.stat2')}</div>
+              <div>{t('cta.stat2Label')}</div>
             </div>
             <div className="w-px bg-primary-foreground/20" />
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold">99.9%</div>
-              <div>Uptime</div>
+              <div className="text-2xl font-bold">{t('cta.stat3')}</div>
+              <div>{t('cta.stat3Label')}</div>
             </div>
           </div>
         </div>

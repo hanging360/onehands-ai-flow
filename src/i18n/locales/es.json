@@ -1,0 +1,173 @@
+{
+  "hero": {
+    "badge": "Impulsado por Tecnología AI Avanzada",
+    "headline": "Automatiza tu Negocio",
+    "headlineHighlight": "Con Inteligencia Artificial",
+    "subheadline": "Transforma las operaciones de tu negocio con automatización inteligente. Desde WhatsApp y redes sociales hasta calendarios y flujos de trabajo - todo impulsado por ChatGPT e IA de vanguardia.",
+    "getStarted": "Comenzar",
+    "scheduleDemo": "Agendar Demo",
+    "trust1": "Impulsado por ChatGPT",
+    "trust2": "Listo para Empresas",
+    "trust3": "Automatización 24/7"
+  },
+  "services": {
+    "title": "Suite Completa de Automatización AI",
+    "subtitle": "Todo lo que necesitas para automatizar y escalar las operaciones de tu negocio con inteligencia artificial.",
+    "whatsapp": {
+      "title": "Automatización de WhatsApp",
+      "description": "Chatbots inteligentes y flujos de mensajería automatizados para engagement y soporte al cliente."
+    },
+    "scheduling": {
+      "title": "Programación Inteligente",
+      "description": "Reserva de citas y gestión de calendarios impulsada por IA que se adapta a las necesidades de tu negocio."
+    },
+    "social": {
+      "title": "Gestión de Redes Sociales",
+      "description": "Publicaciones automatizadas, gestión de comentarios y seguimiento de engagement en todas las plataformas."
+    },
+    "documents": {
+      "title": "Procesamiento de Documentos",
+      "description": "Gestión inteligente de archivos y carpetas con organización y recuperación impulsada por IA."
+    },
+    "workflows": {
+      "title": "Flujos de Trabajo Personalizados",
+      "description": "Construye flujos de automatización complejos conectando todas tus herramientas y procesos empresariales."
+    },
+    "assistants": {
+      "title": "Asistentes AI",
+      "description": "Despliega asistentes AI inteligentes impulsados por ChatGPT para cualquier función empresarial."
+    }
+  },
+  "workflow": {
+    "title": "Cómo Funciona Nuestro Sistema",
+    "subtitle": "Un flujo de trabajo automatizado diseñado para transformar cada interacción en resultados empresariales",
+    "step1": {
+      "number": "01",
+      "title": "Conexión Inteligente",
+      "description": "El cliente interactúa con tu negocio a través de WhatsApp, redes sociales o web. Nuestro AI captura y procesa cada interacción.",
+      "feature1": "Respuestas automáticas 24/7",
+      "feature2": "Procesamiento de lenguaje natural",
+      "feature3": "Múltiples canales integrados"
+    },
+    "step2": {
+      "number": "02",
+      "title": "Automatización Inteligente",
+      "description": "El flujo de trabajo AI procesa la información, programa citas, gestiona documentos y ejecuta tareas complejas sin intervención humana.",
+      "feature1": "Sincronización con calendarios",
+      "feature2": "Gestión automática de archivos",
+      "feature3": "Flujos de trabajo personalizados"
+    },
+    "step3": {
+      "number": "03",
+      "title": "Resultados Medibles",
+      "description": "Obtén análisis completos, publicaciones automatizadas en redes sociales y seguimiento de todas las interacciones desde un solo dashboard.",
+      "feature1": "Analytics en tiempo real",
+      "feature2": "Reportes automáticos",
+      "feature3": "ROI optimizado"
+    }
+  },
+  "technical": {
+    "title": "Desarrollo Técnico",
+    "subtitle": "Tecnología de vanguardia que impulsa cada automatización",
+    "n8n": {
+      "title": "Desarrollo con n8n",
+      "description": "Utilizamos n8n como plataforma principal de automatización, permitiendo crear flujos de trabajo visuales y escalables sin código complejo."
+    },
+    "api": {
+      "title": "Integración API",
+      "description": "Conectamos Meta API, ChatGPT, y múltiples servicios empresariales mediante APIs RESTful seguras y optimizadas."
+    },
+    "ai": {
+      "title": "Procesamiento AI",
+      "description": "Implementamos modelos de ChatGPT para comprensión de lenguaje natural, automatización de respuestas y toma de decisiones inteligentes."
+    },
+    "security": {
+      "title": "Seguridad Empresarial",
+      "description": "Encriptación end-to-end, cumplimiento GDPR, y protocolos de seguridad enterprise-grade en todas las integraciones."
+    },
+    "stackTitle": "Stack Tecnológico",
+    "stack1Title": "IA & Procesamiento",
+    "stack1Items": ["OpenAI GPT-4", "Procesamiento NLP", "Machine Learning", "Análisis Predictivo"],
+    "stack2Title": "Automatización",
+    "stack2Items": ["n8n Workflows", "ManyChat Bots", "Zapier Integration", "Custom APIs"],
+    "stack3Title": "Plataformas",
+    "stack3Items": ["Meta Business Suite", "WhatsApp Business", "Google Workspace", "Cloud Infrastructure"]
+  },
+  "benefits": {
+    "title": "Beneficios para tu Empresa",
+    "subtitle": "Transforma tu operación con resultados medibles y retorno de inversión inmediato",
+    "timeSaving": {
+      "title": "Ahorro de Tiempo",
+      "stat": "85%",
+      "description": "Reduce el tiempo dedicado a tareas repetitivas, liberando a tu equipo para enfocarse en estrategia y crecimiento."
+    },
+    "costReduction": {
+      "title": "Reducción de Costos",
+      "stat": "60%",
+      "description": "Disminuye costos operativos al automatizar procesos que normalmente requerirían múltiples empleados."
+    },
+    "customerExperience": {
+      "title": "Mejor Experiencia del Cliente",
+      "stat": "95%",
+      "description": "Respuestas instantáneas 24/7 mejoran la satisfacción del cliente y aumentan la retención."
+    },
+    "scalability": {
+      "title": "Escalabilidad",
+      "stat": "10x",
+      "description": "Maneja 10 veces más interacciones sin aumentar tu equipo, creciendo sin límites operativos."
+    },
+    "precision": {
+      "title": "Precisión en Procesos",
+      "stat": "99%",
+      "description": "Elimina errores humanos en tareas repetitivas, asegurando consistencia en cada interacción."
+    },
+    "innovation": {
+      "title": "Innovación Continua",
+      "stat": "∞",
+      "description": "Acceso constante a las últimas tecnologías AI sin necesidad de contratar especialistas internos."
+    },
+    "roiTitle": "Retorno de Inversión Garantizado",
+    "roiDescription": "La mayoría de nuestros clientes recuperan su inversión en los primeros 3 meses y experimentan mejoras operativas inmediatas desde el día uno.",
+    "roi1": "3 meses",
+    "roi1Label": "ROI promedio",
+    "roi2": "24/7",
+    "roi2Label": "Disponibilidad",
+    "roi3": "100%",
+    "roi3Label": "Personalizable"
+  },
+  "integrations": {
+    "title": "Impulsado por Tecnologías Líderes",
+    "subtitle": "Nos integramos con las mejores herramientas y plataformas para entregar soluciones de automatización sin fisuras.",
+    "categories": {
+      "ai": "IA",
+      "automation": "Automatización",
+      "development": "Desarrollo",
+      "messaging": "Mensajería",
+      "social": "Social",
+      "productivity": "Productividad"
+    }
+  },
+  "cta": {
+    "title": "¿Listo para Transformar tu Negocio?",
+    "subtitle": "Únete a empresas visionarias que están automatizando sus operaciones con IA. Agenda una demo y descubre cómo OneHands.ai puede revolucionar tus flujos de trabajo.",
+    "scheduleDemo": "Agendar Demo",
+    "contactUs": "Contáctanos",
+    "stat1": "24/7",
+    "stat1Label": "Automatización",
+    "stat2": "100+",
+    "stat2Label": "Integraciones",
+    "stat3": "99.9%",
+    "stat3Label": "Tiempo Activo"
+  },
+  "footer": {
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "contact": "Contacto",
+    "copyright": "© 2025 OneHands.ai. Todos los derechos reservados. Empoderando negocios a través de la automatización AI."
+  },
+  "whatsappMessages": {
+    "getStarted": "Hola, estoy interesado en OneHands.ai",
+    "scheduleDemo": "Me gustaría agendar una demo de OneHands.ai",
+    "contactUs": "Hola, me gustaría más información sobre OneHands.ai"
+  }
+}

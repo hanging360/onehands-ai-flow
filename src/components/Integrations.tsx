@@ -1,26 +1,29 @@
 import { Card } from "@/components/ui/card";
-
-const integrations = [
-  { name: "ChatGPT", category: "AI" },
-  { name: "n8n", category: "Automation" },
-  { name: "Lovable", category: "Development" },
-  { name: "ManyChat", category: "Messaging" },
-  { name: "Meta API", category: "Social" },
-  { name: "WhatsApp Business", category: "Messaging" },
-  { name: "Google Calendar", category: "Productivity" },
-  { name: "Instagram", category: "Social" },
-];
+import { useTranslation } from "react-i18next";
 
 export const Integrations = () => {
+  const { t } = useTranslation();
+
+  const integrations = [
+    { name: "ChatGPT", categoryKey: "integrations.categories.ai" },
+    { name: "n8n", categoryKey: "integrations.categories.automation" },
+    { name: "Lovable", categoryKey: "integrations.categories.development" },
+    { name: "ManyChat", categoryKey: "integrations.categories.messaging" },
+    { name: "Meta API", categoryKey: "integrations.categories.social" },
+    { name: "WhatsApp Business", categoryKey: "integrations.categories.messaging" },
+    { name: "Google Calendar", categoryKey: "integrations.categories.productivity" },
+    { name: "Instagram", categoryKey: "integrations.categories.social" },
+  ];
+
   return (
     <section className="py-24 bg-muted/30">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Powered by Leading Technologies
+            {t('integrations.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            We integrate with the best tools and platforms to deliver seamless automation solutions.
+            {t('integrations.subtitle')}
           </p>
         </div>
 
@@ -35,7 +38,7 @@ export const Integrations = () => {
                   {integration.name}
                 </h3>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                  {integration.category}
+                  {t(integration.categoryKey)}
                 </p>
               </div>
             </Card>

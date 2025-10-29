@@ -1,39 +1,42 @@
 import { Card } from "@/components/ui/card";
 import { Code2, Puzzle, Zap, Shield } from "lucide-react";
-
-const technicalFeatures = [
-  {
-    icon: Code2,
-    title: "Desarrollo con n8n",
-    description: "Utilizamos n8n como plataforma principal de automatización, permitiendo crear flujos de trabajo visuales y escalables sin código complejo."
-  },
-  {
-    icon: Puzzle,
-    title: "Integración API",
-    description: "Conectamos Meta API, ChatGPT, y múltiples servicios empresariales mediante APIs RESTful seguras y optimizadas."
-  },
-  {
-    icon: Zap,
-    title: "Procesamiento AI",
-    description: "Implementamos modelos de ChatGPT para comprensión de lenguaje natural, automatización de respuestas y toma de decisiones inteligentes."
-  },
-  {
-    icon: Shield,
-    title: "Seguridad Empresarial",
-    description: "Encriptación end-to-end, cumplimiento GDPR, y protocolos de seguridad enterprise-grade en todas las integraciones."
-  }
-];
+import { useTranslation } from "react-i18next";
 
 export const TechnicalDevelopment = () => {
+  const { t } = useTranslation();
+
+  const technicalFeatures = [
+    {
+      icon: Code2,
+      titleKey: "technical.n8n.title",
+      descriptionKey: "technical.n8n.description",
+    },
+    {
+      icon: Puzzle,
+      titleKey: "technical.api.title",
+      descriptionKey: "technical.api.description",
+    },
+    {
+      icon: Zap,
+      titleKey: "technical.ai.title",
+      descriptionKey: "technical.ai.description",
+    },
+    {
+      icon: Shield,
+      titleKey: "technical.security.title",
+      descriptionKey: "technical.security.description",
+    }
+  ];
+
   return (
     <section className="py-24 bg-muted/30">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Desarrollo Técnico
+            {t('technical.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Tecnología de vanguardia que impulsa cada automatización
+            {t('technical.subtitle')}
           </p>
         </div>
 
@@ -49,10 +52,10 @@ export const TechnicalDevelopment = () => {
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {feature.title}
+                  {t(feature.titleKey)}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
+                  {t(feature.descriptionKey)}
                 </p>
               </Card>
             );
@@ -62,40 +65,37 @@ export const TechnicalDevelopment = () => {
         {/* Technical Stack */}
         <Card className="max-w-6xl mx-auto p-8 md:p-12 bg-gradient-to-br from-card to-accent/20 border-border">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-            Stack Tecnológico
+            {t('technical.stackTitle')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
               <h4 className="font-semibold text-primary uppercase text-sm tracking-wide">
-                IA & Procesamiento
+                {t('technical.stack1Title')}
               </h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• OpenAI GPT-4</li>
-                <li>• Procesamiento NLP</li>
-                <li>• Machine Learning</li>
-                <li>• Análisis Predictivo</li>
+                {(t('technical.stack1Items', { returnObjects: true }) as string[]).map((item, i) => (
+                  <li key={i}>• {item}</li>
+                ))}
               </ul>
             </div>
             <div className="space-y-3">
               <h4 className="font-semibold text-primary uppercase text-sm tracking-wide">
-                Automatización
+                {t('technical.stack2Title')}
               </h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• n8n Workflows</li>
-                <li>• ManyChat Bots</li>
-                <li>• Zapier Integration</li>
-                <li>• Custom APIs</li>
+                {(t('technical.stack2Items', { returnObjects: true }) as string[]).map((item, i) => (
+                  <li key={i}>• {item}</li>
+                ))}
               </ul>
             </div>
             <div className="space-y-3">
               <h4 className="font-semibold text-primary uppercase text-sm tracking-wide">
-                Plataformas
+                {t('technical.stack3Title')}
               </h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Meta Business Suite</li>
-                <li>• WhatsApp Business</li>
-                <li>• Google Workspace</li>
-                <li>• Cloud Infrastructure</li>
+                {(t('technical.stack3Items', { returnObjects: true }) as string[]).map((item, i) => (
+                  <li key={i}>• {item}</li>
+                ))}
               </ul>
             </div>
           </div>

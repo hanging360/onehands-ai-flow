@@ -1,55 +1,58 @@
 import { Card } from "@/components/ui/card";
 import { TrendingUp, Clock, Users, DollarSign, Target, Sparkles } from "lucide-react";
-
-const benefits = [
-  {
-    icon: Clock,
-    title: "Ahorro de Tiempo",
-    stat: "85%",
-    description: "Reduce el tiempo dedicado a tareas repetitivas, liberando a tu equipo para enfocarse en estrategia y crecimiento."
-  },
-  {
-    icon: DollarSign,
-    title: "Reducción de Costos",
-    stat: "60%",
-    description: "Disminuye costos operativos al automatizar procesos que normalmente requerirían múltiples empleados."
-  },
-  {
-    icon: Users,
-    title: "Mejor Experiencia del Cliente",
-    stat: "95%",
-    description: "Respuestas instantáneas 24/7 mejoran la satisfacción del cliente y aumentan la retención."
-  },
-  {
-    icon: TrendingUp,
-    title: "Escalabilidad",
-    stat: "10x",
-    description: "Maneja 10 veces más interacciones sin aumentar tu equipo, creciendo sin límites operativos."
-  },
-  {
-    icon: Target,
-    title: "Precisión en Procesos",
-    stat: "99%",
-    description: "Elimina errores humanos en tareas repetitivas, asegurando consistencia en cada interacción."
-  },
-  {
-    icon: Sparkles,
-    title: "Innovación Continua",
-    stat: "∞",
-    description: "Acceso constante a las últimas tecnologías AI sin necesidad de contratar especialistas internos."
-  }
-];
+import { useTranslation } from "react-i18next";
 
 export const BusinessBenefits = () => {
+  const { t } = useTranslation();
+
+  const benefits = [
+    {
+      icon: Clock,
+      titleKey: "benefits.timeSaving.title",
+      statKey: "benefits.timeSaving.stat",
+      descriptionKey: "benefits.timeSaving.description"
+    },
+    {
+      icon: DollarSign,
+      titleKey: "benefits.costReduction.title",
+      statKey: "benefits.costReduction.stat",
+      descriptionKey: "benefits.costReduction.description"
+    },
+    {
+      icon: Users,
+      titleKey: "benefits.customerExperience.title",
+      statKey: "benefits.customerExperience.stat",
+      descriptionKey: "benefits.customerExperience.description"
+    },
+    {
+      icon: TrendingUp,
+      titleKey: "benefits.scalability.title",
+      statKey: "benefits.scalability.stat",
+      descriptionKey: "benefits.scalability.description"
+    },
+    {
+      icon: Target,
+      titleKey: "benefits.precision.title",
+      statKey: "benefits.precision.stat",
+      descriptionKey: "benefits.precision.description"
+    },
+    {
+      icon: Sparkles,
+      titleKey: "benefits.innovation.title",
+      statKey: "benefits.innovation.stat",
+      descriptionKey: "benefits.innovation.description"
+    }
+  ];
+
   return (
     <section className="py-24 bg-background">
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Beneficios para tu Empresa
+            {t('benefits.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Transforma tu operación con resultados medibles y retorno de inversión inmediato
+            {t('benefits.subtitle')}
           </p>
         </div>
 
@@ -66,14 +69,14 @@ export const BusinessBenefits = () => {
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
                   <div className="text-3xl font-bold text-primary">
-                    {benefit.stat}
+                    {t(benefit.statKey)}
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {benefit.title}
+                  {t(benefit.titleKey)}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {benefit.description}
+                  {t(benefit.descriptionKey)}
                 </p>
               </Card>
             );
@@ -84,23 +87,23 @@ export const BusinessBenefits = () => {
         <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-gradient-to-br from-primary to-accent-foreground text-primary-foreground">
           <div className="text-center space-y-6">
             <h3 className="text-3xl md:text-4xl font-bold">
-              Retorno de Inversión Garantizado
+              {t('benefits.roiTitle')}
             </h3>
             <p className="text-lg opacity-90 max-w-2xl mx-auto">
-              La mayoría de nuestros clientes recuperan su inversión en los primeros 3 meses y experimentan mejoras operativas inmediatas desde el día uno.
+              {t('benefits.roiDescription')}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
               <div className="space-y-2">
-                <div className="text-4xl font-bold">3 meses</div>
-                <div className="text-sm opacity-75">ROI promedio</div>
+                <div className="text-4xl font-bold">{t('benefits.roi1')}</div>
+                <div className="text-sm opacity-75">{t('benefits.roi1Label')}</div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-bold">24/7</div>
-                <div className="text-sm opacity-75">Disponibilidad</div>
+                <div className="text-4xl font-bold">{t('benefits.roi2')}</div>
+                <div className="text-sm opacity-75">{t('benefits.roi2Label')}</div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-bold">100%</div>
-                <div className="text-sm opacity-75">Personalizable</div>
+                <div className="text-4xl font-bold">{t('benefits.roi3')}</div>
+                <div className="text-sm opacity-75">{t('benefits.roi3Label')}</div>
               </div>
             </div>
           </div>

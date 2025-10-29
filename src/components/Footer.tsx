@@ -1,6 +1,9 @@
 import logo from "@/assets/onehands-logo-digital.png";
+import { useTranslation } from "react-i18next";
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-card border-t border-border py-12">
       <div className="container px-4 mx-auto">
@@ -12,19 +15,19 @@ export const Footer = () => {
             
             <div className="flex flex-col md:flex-row items-center gap-6 text-sm text-muted-foreground">
               <a href="#" className="hover:text-primary transition-colors">
-                Privacy Policy
+                {t('footer.privacy')}
               </a>
               <a href="#" className="hover:text-primary transition-colors">
-                Terms of Service
+                {t('footer.terms')}
               </a>
               <a href="#" className="hover:text-primary transition-colors">
-                Contact
+                {t('footer.contact')}
               </a>
             </div>
           </div>
           
           <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            <p>© 2025 OneHands.ai. All rights reserved. Empowering businesses through AI automation.</p>
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </div>
