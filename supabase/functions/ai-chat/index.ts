@@ -1,10 +1,23 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Validation schemas
+const messageSchema = z.object({
+  role: z.enum(['user', 'assistant']),
+  content: z.string().min(1).max(5000).trim()
+});
+
+const aiChatRequestSchema = z.object({
+  messages: z.array(messageSchema).min(1).max(50),
+  sessionId: z.string().regex(/^session_[0-9]+_[a-z0-9]+$/).max(100),
+  clientName: z.string().max(100).trim().optional()
+});
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -13,9 +26,13 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, sessionId } = await req.json();
-    console.log('Received messages:', messages);
-    console.log('Session ID:', sessionId);
+    // Validate request data
+    const requestData = await req.json();
+    const validatedData = aiChatRequestSchema.parse(requestData);
+    const { messages, sessionId, clientName } = validatedData;
+    
+    console.log('Received messages:', messages.length);
+    console.log('Session ID:', sessionId.substring(0, 15) + '...');
 
     // Initialize Supabase client with service role
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -152,12 +169,23 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
 
   } catch (error) {
     console.error('Error in ai-chat function:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+    
+    // Handle validation errors specifically
+    if (error instanceof z.ZodError) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request data' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        }
+      );
+    }
+    
     return new Response(
-      JSON.stringify({ error: errorMessage }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      JSON.stringify({ error: 'An error occurred processing your request' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
       }
     );
   }

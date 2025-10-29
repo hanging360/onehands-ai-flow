@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -8,14 +9,25 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface ConversationEmailRequest {
-  clientName: string;
-  clientEmail?: string;
-  messages: Array<{
-    role: string;
-    content: string;
-  }>;
-}
+// Validation schema
+const emailRequestSchema = z.object({
+  clientName: z.string().min(1).max(100).trim(),
+  clientEmail: z.string().email().max(255).optional(),
+  messages: z.array(z.object({
+    role: z.enum(['user', 'assistant']),
+    content: z.string().min(1).max(5000)
+  })).min(1).max(50)
+});
+
+// HTML escaping function
+const escapeHtml = (unsafe: string): string => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -23,19 +35,23 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { clientName, clientEmail, messages }: ConversationEmailRequest = await req.json();
+    // Validate request data
+    const requestData = await req.json();
+    const validatedData = emailRequestSchema.parse(requestData);
+    const { clientName, clientEmail, messages } = validatedData;
 
-    console.log("Sending conversation email for:", clientName);
+    console.log("Sending conversation email");
 
-    // Format conversation history
+    // Format conversation history with HTML escaping
     const conversationHTML = messages
       .map((msg) => {
         const role = msg.role === "user" ? "Cliente" : "AI Assistant";
         const bgColor = msg.role === "user" ? "#f0f9ff" : "#f9fafb";
+        const escapedContent = escapeHtml(msg.content);
         return `
           <div style="margin: 15px 0; padding: 15px; background-color: ${bgColor}; border-radius: 8px;">
             <strong style="color: #1e40af;">${role}:</strong>
-            <p style="margin: 5px 0 0 0; white-space: pre-wrap;">${msg.content}</p>
+            <p style="margin: 5px 0 0 0; white-space: pre-wrap;">${escapedContent}</p>
           </div>
         `;
       })
@@ -56,8 +72,8 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="background-color: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
             <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
               <h2 style="margin: 0 0 10px 0; color: #1f2937; font-size: 20px;">📋 Información del Cliente</h2>
-              <p style="margin: 5px 0;"><strong>Nombre:</strong> ${clientName}</p>
-              ${clientEmail ? `<p style="margin: 5px 0;"><strong>Email:</strong> ${clientEmail}</p>` : ""}
+              <p style="margin: 5px 0;"><strong>Nombre:</strong> ${escapeHtml(clientName)}</p>
+              ${clientEmail ? `<p style="margin: 5px 0;"><strong>Email:</strong> ${escapeHtml(clientEmail)}</p>` : ""}
               <p style="margin: 5px 0;"><strong>Fecha:</strong> ${new Date().toLocaleString("es-ES", { timeZone: "America/New_York" })}</p>
             </div>
 
@@ -94,8 +110,20 @@ const handler = async (req: Request): Promise<Response> => {
     });
   } catch (error: any) {
     console.error("Error sending conversation email:", error);
+    
+    // Handle validation errors specifically
+    if (error instanceof z.ZodError) {
+      return new Response(
+        JSON.stringify({ error: "Invalid request data" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "An error occurred sending the email" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
