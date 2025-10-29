@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
-import logo from "@/assets/onehands-logo-ai.png";
+import logo from "@/assets/onehands-logo-complete.png";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -27,7 +27,7 @@ export const Hero = () => {
             <img 
               src={logo} 
               alt="OneHands.ai Logo" 
-              className="h-20 md:h-24 w-auto drop-shadow-lg"
+              className="h-16 md:h-20 w-auto drop-shadow-lg"
             />
           </div>
 

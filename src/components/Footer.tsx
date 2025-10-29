@@ -1,4 +1,4 @@
-import logo from "@/assets/onehands-logo-ai.png";
+import logo from "@/assets/onehands-logo-complete.png";
 import { useTranslation } from "react-i18next";
 
 export const Footer = () => {
