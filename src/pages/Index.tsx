@@ -14,6 +14,7 @@ const Index = () => {
   return (
     <main className="min-h-screen">
       <Hero />
+      <AIChatDemo />
       <Services />
       <WorkflowSection />
       <TechnicalDevelopment />
@@ -21,7 +22,6 @@ const Index = () => {
       <BusinessBenefits />
       <Integrations />
       <WorkflowDiagram />
-      <AIChatDemo />
       <CTA />
       <Footer />
     </main>
