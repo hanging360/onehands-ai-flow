@@ -9,21 +9,25 @@ import { WorkflowDiagram } from "@/components/WorkflowDiagram";
 import { AIChatDemo } from "@/components/AIChatDemo";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { NetworkBackground } from "@/components/NetworkBackground";
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
-      <Hero />
-      <AIChatDemo />
-      <Services />
-      <WorkflowSection />
-      <TechnicalDevelopment />
-      <AIValueProposition />
-      <BusinessBenefits />
-      <Integrations />
-      <WorkflowDiagram />
-      <CTA />
-      <Footer />
+    <main className="min-h-screen relative">
+      <NetworkBackground />
+      <div className="relative z-10">
+        <Hero />
+        <AIChatDemo />
+        <Services />
+        <WorkflowSection />
+        <TechnicalDevelopment />
+        <AIValueProposition />
+        <BusinessBenefits />
+        <Integrations />
+        <WorkflowDiagram />
+        <CTA />
+        <Footer />
+      </div>
     </main>
   );
 };
