@@ -20,8 +20,16 @@ export const AIChatDemo = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showExamples, setShowExamples] = useState(true);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  const exampleQuestions = [
+    "I need to automate customer service responses",
+    "How can I automate invoice processing?",
+    "Necesito automatizar el seguimiento de leads",
+    "¿Cómo automatizar la gestión de inventario?",
+  ];
 
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
@@ -36,6 +44,11 @@ export const AIChatDemo = () => {
     scrollToBottom();
   }, [messages]);
 
+  const handleExampleClick = (question: string) => {
+    setInput(question);
+    setShowExamples(false);
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -43,6 +56,7 @@ export const AIChatDemo = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    setShowExamples(false);
 
     try {
       const response = await fetch(
@@ -202,6 +216,24 @@ export const AIChatDemo = () => {
           </ScrollArea>
 
           <div className="border-t border-border p-4">
+            {showExamples && messages.length === 1 && (
+              <div className="mb-3">
+                <p className="text-xs text-muted-foreground mb-2">Try asking:</p>
+                <div className="flex flex-wrap gap-2">
+                  {exampleQuestions.map((question, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleExampleClick(question)}
+                      className="text-xs h-auto py-1.5 px-3"
+                    >
+                      {question}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="flex gap-2">
               <Input
                 value={input}
