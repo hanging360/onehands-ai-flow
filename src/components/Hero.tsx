@@ -54,30 +54,19 @@ export const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-fade-in-up delay-400">
+          <div className="flex flex-col gap-3 justify-center items-center pt-4 animate-fade-in-up delay-400">
+            <p className="text-base md:text-lg text-muted-foreground font-medium">
+              {t('hero.aiPrompt')}
+            </p>
             <Button 
               size="lg" 
               className="group shadow-medium hover:shadow-large transition-all"
-              asChild
-            >
-              <a 
-                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.getStarted'))}`}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                {t('hero.getStarted')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="shadow-soft"
               onClick={() => {
                 document.getElementById('ai-demo')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              {t('hero.scheduleDemo')}
+              {t('hero.getStarted')}
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
 

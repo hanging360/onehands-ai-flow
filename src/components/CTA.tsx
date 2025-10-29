@@ -16,7 +16,10 @@ export const CTA = () => {
             {t('cta.subtitle')}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          <div className="flex flex-col gap-3 justify-center items-center pt-4">
+            <p className="text-lg opacity-90">
+              {t('cta.aiPrompt')}
+            </p>
             <Button 
               size="lg" 
               variant="secondary"
@@ -25,23 +28,8 @@ export const CTA = () => {
                 document.getElementById('ai-demo')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              {t('cta.scheduleDemo')}
+              {t('cta.getStarted')}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:border-primary-foreground shadow-soft"
-              asChild
-            >
-              <a 
-                href={`https://wa.me/17869606797?text=${encodeURIComponent(t('whatsappMessages.contactUs'))}`}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <Mail className="mr-2 w-5 h-5" />
-                {t('cta.contactUs')}
-              </a>
             </Button>
           </div>
 

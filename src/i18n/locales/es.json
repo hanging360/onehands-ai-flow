@@ -5,7 +5,7 @@
     "headlineHighlight": "Con Inteligencia Artificial",
     "subheadline": "Transforma las operaciones de tu negocio con automatización inteligente. Desde WhatsApp y redes sociales hasta calendarios y flujos de trabajo - todo impulsado por ChatGPT e IA de vanguardia.",
     "getStarted": "Comenzar",
-    "scheduleDemo": "Agendar Demo",
+    "aiPrompt": "Habla conmigo la AI de tu proyecto o empresa",
     "trust1": "Impulsado por ChatGPT",
     "trust2": "Listo para Empresas",
     "trust3": "Automatización 24/7"
@@ -151,9 +151,9 @@
   },
   "cta": {
     "title": "¿Listo para Transformar tu Negocio?",
-    "subtitle": "Únete a empresas visionarias que están automatizando sus operaciones con IA. Agenda una demo y descubre cómo OneHands.ai puede revolucionar tus flujos de trabajo.",
-    "scheduleDemo": "Agendar Demo",
-    "contactUs": "Contáctanos",
+    "subtitle": "Únete a empresas visionarias que están automatizando sus operaciones con IA. Habla con nuestra AI y descubre cómo OneHands.ai puede revolucionar tus flujos de trabajo.",
+    "getStarted": "Comenzar",
+    "aiPrompt": "Habla conmigo la AI de tu proyecto o empresa",
     "stat1": "24/7",
     "stat1Label": "Automatización",
     "stat2": "100+",

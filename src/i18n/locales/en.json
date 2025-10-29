@@ -5,7 +5,7 @@
     "headlineHighlight": "With AI Intelligence",
     "subheadline": "Transform your business operations with intelligent automation. From WhatsApp and social media to calendars and workflows - all powered by ChatGPT and cutting-edge AI.",
     "getStarted": "Get Started",
-    "scheduleDemo": "Schedule Demo",
+    "aiPrompt": "Talk to me about your project or business AI",
     "trust1": "ChatGPT Powered",
     "trust2": "Enterprise Ready",
     "trust3": "24/7 Automation"
@@ -151,9 +151,9 @@
   },
   "cta": {
     "title": "Ready to Transform Your Business?",
-    "subtitle": "Join forward-thinking companies automating their operations with AI. Schedule a demo and see how OneHands.ai can revolutionize your workflows.",
-    "scheduleDemo": "Schedule Demo",
-    "contactUs": "Contact Us",
+    "subtitle": "Join forward-thinking companies automating their operations with AI. Talk to our AI and see how OneHands.ai can revolutionize your workflows.",
+    "getStarted": "Get Started",
+    "aiPrompt": "Talk to me about your project or business AI",
     "stat1": "24/7",
     "stat1Label": "Automation",
     "stat2": "100+",
