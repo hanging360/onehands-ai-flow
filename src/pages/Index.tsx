@@ -5,6 +5,7 @@ import { TechnicalDevelopment } from "@/components/TechnicalDevelopment";
 import { AIValueProposition } from "@/components/AIValueProposition";
 import { BusinessBenefits } from "@/components/BusinessBenefits";
 import { Integrations } from "@/components/Integrations";
+import { WorkflowDiagram } from "@/components/WorkflowDiagram";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
@@ -18,6 +19,7 @@ const Index = () => {
       <AIValueProposition />
       <BusinessBenefits />
       <Integrations />
+      <WorkflowDiagram />
       <CTA />
       <Footer />
     </main>
