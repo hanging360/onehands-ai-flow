@@ -7,7 +7,6 @@ export const Integrations = () => {
   const integrations = [
     { name: "ChatGPT", categoryKey: "integrations.categories.ai" },
     { name: "n8n", categoryKey: "integrations.categories.automation" },
-    { name: "Lovable", categoryKey: "integrations.categories.development" },
     { name: "ManyChat", categoryKey: "integrations.categories.messaging" },
     { name: "Meta API", categoryKey: "integrations.categories.social" },
     { name: "WhatsApp Business", categoryKey: "integrations.categories.messaging" },
