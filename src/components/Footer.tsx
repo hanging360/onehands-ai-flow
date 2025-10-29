@@ -1,4 +1,4 @@
-import logo from "@/assets/onehands-logo.png";
+import logo from "@/assets/onehands-logo-digital.png";
 
 export const Footer = () => {
   return (
