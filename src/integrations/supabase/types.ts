@@ -97,6 +97,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          client_ip: string | null
+          email_sent_count: number | null
+          first_request: string | null
+          last_request: string | null
+          request_count: number | null
+          session_id: string
+        }
+        Insert: {
+          client_ip?: string | null
+          email_sent_count?: number | null
+          first_request?: string | null
+          last_request?: string | null
+          request_count?: number | null
+          session_id: string
+        }
+        Update: {
+          client_ip?: string | null
+          email_sent_count?: number | null
+          first_request?: string | null
+          last_request?: string | null
+          request_count?: number | null
+          session_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -41,7 +41,17 @@ serve(async (req) => {
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+      console.error('Required API configuration missing');
+      throw new Error('Service configuration error');
+    }
+
+    // Rate limiting check
+    const rateLimitResult = await checkRateLimit(supabase, sessionId, req);
+    if (!rateLimitResult.allowed) {
+      return new Response(
+        JSON.stringify({ error: rateLimitResult.message }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Get historical insights to improve responses
@@ -65,7 +75,7 @@ serve(async (req) => {
 Use this context to provide more accurate estimates and recommendations.`;
       }
     } catch (error) {
-      console.error('Error fetching historical insights:', error);
+      console.error('Error fetching historical insights');
     }
 
     // Call Lovable AI Gateway
@@ -133,7 +143,7 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI Gateway error:', response.status, errorText);
+      console.error('AI Gateway error:', response.status);
       
       if (response.status === 429) {
         return new Response(
@@ -154,8 +164,8 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
 
     // Save conversation asynchronously (don't wait for it)
     if (sessionId) {
-      saveConversation(supabase, sessionId, messages).catch(err => 
-        console.error('Error saving conversation:', err)
+      saveConversation(supabase, sessionId, messages).catch(() => 
+        console.error('Error saving conversation')
       );
     }
 
@@ -168,7 +178,7 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
     });
 
   } catch (error) {
-    console.error('Error in ai-chat function:', error);
+    console.error('Error in ai-chat function');
     
     // Handle validation errors specifically
     if (error instanceof z.ZodError) {
@@ -235,13 +245,13 @@ async function saveConversation(supabase: any, sessionId: string, messages: any[
 
       // Analyze and create insights if we have enough data
       if (messages.length >= 4) {
-        analyzeAndSaveInsights(supabase, newConv.id, messages).catch(err =>
-          console.error('Error analyzing conversation:', err)
+        analyzeAndSaveInsights(supabase, newConv.id, messages).catch(() =>
+          console.error('Error analyzing conversation')
         );
       }
     }
   } catch (error) {
-    console.error('Error in saveConversation:', error);
+    console.error('Error in saveConversation');
   }
 }
 
@@ -279,6 +289,72 @@ async function analyzeAndSaveInsights(supabase: any, conversationId: string, mes
         key_technologies: ['n8n', 'AI', 'API Integration']
       });
   } catch (error) {
-    console.error('Error in analyzeAndSaveInsights:', error);
+    console.error('Error in analyzeAndSaveInsights');
+  }
+}
+
+// Rate limiting function
+async function checkRateLimit(supabase: any, sessionId: string, req: Request): Promise<{ allowed: boolean; message: string }> {
+  try {
+    const oneHourAgo = new Date(Date.now() - 3600000);
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+
+    // Check session-based limits
+    const { data: sessionLimit } = await supabase
+      .from('rate_limits')
+      .select('*')
+      .eq('session_id', sessionId)
+      .single();
+
+    if (sessionLimit) {
+      const lastRequest = new Date(sessionLimit.last_request);
+      
+      // Session limit: 15 messages per hour
+      if (sessionLimit.request_count >= 15 && lastRequest > oneHourAgo) {
+        return {
+          allowed: false,
+          message: 'Rate limit exceeded. Please wait before sending more messages.'
+        };
+      }
+
+      // Update existing record
+      const newCount = lastRequest > oneHourAgo ? sessionLimit.request_count + 1 : 1;
+      await supabase.from('rate_limits').upsert({
+        session_id: sessionId,
+        request_count: newCount,
+        last_request: new Date(),
+        first_request: lastRequest > oneHourAgo ? sessionLimit.first_request : new Date(),
+        client_ip: clientIP
+      });
+    } else {
+      // Create new rate limit record
+      await supabase.from('rate_limits').insert({
+        session_id: sessionId,
+        request_count: 1,
+        client_ip: clientIP
+      });
+    }
+
+    // Check IP-based limits: 5 sessions per hour
+    const { data: ipSessions, error: ipError } = await supabase
+      .from('rate_limits')
+      .select('session_id')
+      .eq('client_ip', clientIP)
+      .gte('first_request', oneHourAgo.toISOString());
+
+    if (!ipError && ipSessions && ipSessions.length > 5) {
+      return {
+        allowed: false,
+        message: 'Too many sessions from your location. Please try again later.'
+      };
+    }
+
+    return { allowed: true, message: '' };
+  } catch (error) {
+    console.error('Rate limit check failed');
+    // Allow request if rate limit check fails (fail open for availability)
+    return { allowed: true, message: '' };
   }
 }

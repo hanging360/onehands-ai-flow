@@ -99,7 +99,7 @@ const handler = async (req: Request): Promise<Response> => {
       html: emailHTML,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Email sent successfully");
 
     return new Response(JSON.stringify({ success: true, emailResponse }), {
       status: 200,
@@ -109,7 +109,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Error sending conversation email:", error);
+    console.error("Error sending conversation email");
     
     // Handle validation errors specifically
     if (error instanceof z.ZodError) {
