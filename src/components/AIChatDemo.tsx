@@ -25,6 +25,7 @@ export const AIChatDemo = () => {
   const [clientName, setClientName] = useState("");
   const [conversationEnded, setConversationEnded] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const exampleQuestions = [
@@ -198,7 +199,13 @@ export const AIChatDemo = () => {
             Try Our AI Assistant
           </h2>
           <p className="text-sm md:text-base text-muted-foreground">
-            Experience the power of AI automation in real-time
+            Talk to me in the message box below.{" "}
+            <button 
+              onClick={() => inputRef.current?.focus()}
+              className="font-semibold text-primary hover:underline cursor-pointer"
+            >
+              Click here to try it!
+            </button>
           </p>
         </div>
 
@@ -286,6 +293,7 @@ export const AIChatDemo = () => {
             )}
             <div className="flex gap-2">
               <Input
+                ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
