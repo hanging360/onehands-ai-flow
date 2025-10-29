@@ -152,7 +152,7 @@ export const AIChatDemo = () => {
         </div>
 
         <Card className="max-w-3xl mx-auto border-border shadow-large">
-          <ScrollArea ref={scrollAreaRef} className="h-[300px] md:h-[500px] p-4 md:p-6">
+          <ScrollArea ref={scrollAreaRef} className="h-[250px] md:h-[400px] p-4 md:p-6">
             <div className="space-y-4">
               {messages.map((message, index) => (
                 <div
