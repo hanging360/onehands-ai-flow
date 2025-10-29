@@ -144,7 +144,9 @@
       "development": "Desarrollo",
       "messaging": "Mensajería",
       "social": "Social",
-      "productivity": "Productividad"
+      "productivity": "Productividad",
+      "marketing": "Marketing",
+      "payments": "Pagos"
     }
   },
   "cta": {

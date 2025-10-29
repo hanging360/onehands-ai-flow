@@ -12,6 +12,9 @@ export const Integrations = () => {
     { name: "WhatsApp Business", categoryKey: "integrations.categories.messaging" },
     { name: "Google Calendar", categoryKey: "integrations.categories.productivity" },
     { name: "Instagram", categoryKey: "integrations.categories.social" },
+    { name: "GoHighLevel", categoryKey: "integrations.categories.marketing" },
+    { name: "Square", categoryKey: "integrations.categories.payments" },
+    { name: "PayPal", categoryKey: "integrations.categories.payments" },
   ];
 
   return (

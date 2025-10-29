@@ -144,7 +144,9 @@
       "development": "Development",
       "messaging": "Messaging",
       "social": "Social",
-      "productivity": "Productivity"
+      "productivity": "Productivity",
+      "marketing": "Marketing",
+      "payments": "Payments"
     }
   },
   "cta": {
