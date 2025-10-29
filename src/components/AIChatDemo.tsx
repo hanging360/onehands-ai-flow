@@ -15,7 +15,7 @@ export const AIChatDemo = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm an AI assistant. Ask me anything about business automation, AI integration, or how OneHands.ai can help your business.",
+      content: "Hello! I'm here to learn about your business and help you discover how AI automation can transform it. Let's start - what kind of project or challenge are you looking to solve?",
     },
   ]);
   const [input, setInput] = useState("");
