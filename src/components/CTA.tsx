@@ -19,6 +19,7 @@ export const CTA = () => {
               size="lg" 
               variant="secondary"
               className="group shadow-large hover:shadow-xl transition-all"
+              onClick={() => window.open('https://wa.me/17869606797?text=Me%20gustaría%20agendar%20una%20demo%20de%20OneHands.ai', '_blank')}
             >
               Schedule Demo
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -27,6 +28,7 @@ export const CTA = () => {
               size="lg" 
               variant="outline"
               className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:border-primary-foreground shadow-soft"
+              onClick={() => window.open('https://wa.me/17869606797?text=Hola,%20me%20gustaría%20más%20información%20sobre%20OneHands.ai', '_blank')}
             >
               <Mail className="mr-2 w-5 h-5" />
               Contact Us

@@ -46,11 +46,20 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-fade-in-up delay-400">
-            <Button size="lg" className="group shadow-medium hover:shadow-large transition-all">
+            <Button 
+              size="lg" 
+              className="group shadow-medium hover:shadow-large transition-all"
+              onClick={() => window.open('https://wa.me/17869606797?text=Hola,%20estoy%20interesado%20en%20OneHands.ai', '_blank')}
+            >
               Get Started
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="shadow-soft">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="shadow-soft"
+              onClick={() => window.open('https://wa.me/17869606797?text=Me%20gustaría%20agendar%20una%20demo%20de%20OneHands.ai', '_blank')}
+            >
               Schedule Demo
             </Button>
           </div>
