@@ -15,12 +15,14 @@ export const AIChatDemo = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm here to understand your business workflow and help identify automation opportunities. Let's start - what does your company do and what processes would you like to automate?",
+      content: "Hello! I'm here to understand your business workflow and help identify automation opportunities. Let's start - what's your name?",
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showExamples, setShowExamples] = useState(true);
+  const [clientName, setClientName] = useState("");
+  const [conversationEnded, setConversationEnded] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -53,7 +55,14 @@ export const AIChatDemo = () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    
+    // Capture client name from first user message
+    if (!clientName && messages.length === 1) {
+      setClientName(input.trim());
+    }
+    
+    setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
     setShowExamples(false);
@@ -68,10 +77,11 @@ export const AIChatDemo = () => {
             "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
           body: JSON.stringify({
-            messages: [...messages, userMessage].map((m) => ({
+            messages: updatedMessages.map((m) => ({
               role: m.role,
               content: m.content,
             })),
+            clientName: clientName || input.trim(),
           }),
         }
       );
@@ -128,6 +138,32 @@ export const AIChatDemo = () => {
               }
             }
           }
+        }
+      }
+
+      // Check if conversation ended (contains WhatsApp link)
+      if (assistantMessage.includes("wa.me") && !conversationEnded) {
+        setConversationEnded(true);
+        // Send email with conversation
+        const finalMessages = [...updatedMessages, { role: "assistant", content: assistantMessage }];
+        try {
+          await fetch(
+            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-conversation-email`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+              },
+              body: JSON.stringify({
+                clientName: clientName || "Cliente Anónimo",
+                messages: finalMessages,
+              }),
+            }
+          );
+          console.log("Conversation email sent successfully");
+        } catch (emailError) {
+          console.error("Error sending conversation email:", emailError);
         }
       }
     } catch (error) {
