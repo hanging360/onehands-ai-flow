@@ -30,7 +30,7 @@ export const AIValueProposition = () => {
   ];
 
   const whatsappMessage = encodeURIComponent(t('whatsapp.aiConsultation'));
-  const whatsappUrl = `https://wa.me/+541134889945?text=${whatsappMessage}`;
+  const whatsappUrl = `https://wa.me/17869606797?text=${whatsappMessage}`;
 
   return (
     <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-accent/5 relative overflow-hidden">
