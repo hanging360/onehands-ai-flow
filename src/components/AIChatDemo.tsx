@@ -239,7 +239,7 @@ export const AIChatDemo = () => {
   };
 
   return (
-    <section id="ai-demo" className="py-12 md:py-16 bg-background">
+    <section id="ai-demo" className="py-12 md:py-16 bg-background/90 backdrop-blur-sm">
       <div className="container px-4 mx-auto">
         <div className="max-w-2xl mx-auto text-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
