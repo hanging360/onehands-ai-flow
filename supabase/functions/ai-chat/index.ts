@@ -47,7 +47,7 @@ serve(async (req) => {
     
     console.log('Received messages:', messages.length);
     console.log('Session ID:', sessionId.substring(0, 15) + '...');
-    console.log('User ID:', userId.substring(0, 8) + '...');
+    console.log('User ID:', userId ? userId.substring(0, 8) + '...' : 'anonymous');
 
     // Initialize Supabase client with service role
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
