@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Send, User } from "lucide-react";
+import { Bot, Send, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import whatsappMockup from "@/assets/whatsapp-mockup.png";
+import type { User, Session } from "@supabase/supabase-js";
 
 interface Message {
   role: "user" | "assistant";
@@ -19,6 +20,9 @@ const generateSessionId = () => {
 };
 
 export const AIChatDemo = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [sessionId] = useState(() => generateSessionId());
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -28,7 +32,6 @@ export const AIChatDemo = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [showExamples, setShowExamples] = useState(true);
   const [clientName, setClientName] = useState("");
   const [conversationEnded, setConversationEnded] = useState(false);
@@ -52,32 +55,34 @@ export const AIChatDemo = () => {
     }
   };
 
-  // Anonymous authentication on mount
+  // Check authentication and set up listener
   useEffect(() => {
-    const authenticateAnonymously = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
+    // Set up auth state listener first
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, currentSession) => {
+        setSession(currentSession);
+        setUser(currentSession?.user ?? null);
         
-        if (!session) {
-          const { error } = await supabase.auth.signInAnonymously();
-          if (error) {
-            console.error('Anonymous auth error:', error);
-            toast({
-              title: "Error de conexión",
-              description: "No se pudo inicializar el chat. Por favor, recarga la página.",
-              variant: "destructive",
-            });
-          }
+        // Redirect to auth if logged out
+        if (!currentSession) {
+          navigate("/auth");
         }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-      } finally {
-        setIsAuthenticating(false);
       }
-    };
+    );
 
-    authenticateAnonymously();
-  }, [toast]);
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      
+      // Redirect to auth if not logged in
+      if (!currentSession) {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   useEffect(() => {
     scrollToBottom();
@@ -88,8 +93,13 @@ export const AIChatDemo = () => {
     setShowExamples(false);
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
   const sendMessage = async () => {
-    if (!input.trim() || isLoading || isAuthenticating) return;
+    if (!input.trim() || isLoading || !session) return;
 
     const userMessage: Message = { role: "user", content: input };
     const updatedMessages = [...messages, userMessage];
@@ -105,11 +115,8 @@ export const AIChatDemo = () => {
     setShowExamples(false);
 
     try {
-      // Get current session to ensure authentication
-      const { data: { session } } = await supabase.auth.getSession();
-      
       if (!session) {
-        throw new Error("No hay sesión activa");
+        throw new Error("No active session");
       }
 
       const response = await fetch(
@@ -137,9 +144,9 @@ export const AIChatDemo = () => {
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
-      let assistantMessage = "";
+        let assistantMessage = "";
 
-      if (reader) {
+        if (reader) {
         let buffer = "";
         
         while (true) {
@@ -192,15 +199,13 @@ export const AIChatDemo = () => {
         // Send email with conversation
         const finalMessages = [...updatedMessages, { role: "assistant", content: assistantMessage }];
         try {
-          const { data: { session } } = await supabase.auth.getSession();
-          
           await fetch(
             `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-conversation-email`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${session?.access_token}`,
+                "Authorization": `Bearer ${session.access_token}`,
               },
               body: JSON.stringify({
                 clientName: clientName || "Cliente Anónimo",
@@ -270,6 +275,15 @@ export const AIChatDemo = () => {
                 <h3 className="font-semibold">OneHands AI Assistant</h3>
                 <p className="text-xs text-white/80">Online</p>
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleSignOut}
+                className="text-white hover:bg-white/20"
+                title="Sign Out"
+              >
+                <LogOut className="w-5 h-5" />
+              </Button>
             </div>
 
             {/* WhatsApp chat pattern background */}
@@ -370,13 +384,13 @@ export const AIChatDemo = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={isAuthenticating ? "Inicializando..." : "Type a message..."}
-                disabled={isLoading || isAuthenticating}
+                placeholder={!session ? "Please log in..." : "Type a message..."}
+                disabled={isLoading || !session}
                 className="flex-1 bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
               />
               <Button
                 onClick={sendMessage}
-                disabled={!input.trim() || isLoading || isAuthenticating}
+                disabled={!input.trim() || isLoading || !session}
                 size="icon"
                 className="flex-shrink-0 bg-[#25D366] hover:bg-[#20BD5C] text-white"
               >

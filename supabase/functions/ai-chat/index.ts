@@ -26,6 +26,27 @@ serve(async (req) => {
   }
 
   try {
+    // Get user ID from JWT token (already validated by Supabase)
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Missing authorization header' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Parse JWT to get user ID
+    const token = authHeader.replace('Bearer ', '');
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.sub;
+
+    if (!userId) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid token' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Validate request data
     const requestData = await req.json();
     const validatedData = aiChatRequestSchema.parse(requestData);
@@ -33,6 +54,7 @@ serve(async (req) => {
     
     console.log('Received messages:', messages.length);
     console.log('Session ID:', sessionId.substring(0, 15) + '...');
+    console.log('User ID:', userId.substring(0, 8) + '...');
 
     // Initialize Supabase client with service role
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -46,7 +68,7 @@ serve(async (req) => {
     }
 
     // Rate limiting check
-    const rateLimitResult = await checkRateLimit(supabase, sessionId, req);
+    const rateLimitResult = await checkRateLimit(supabase, sessionId, userId, req);
     if (!rateLimitResult.allowed) {
       return new Response(
         JSON.stringify({ error: rateLimitResult.message }),
@@ -163,8 +185,8 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
     }
 
     // Save conversation asynchronously (don't wait for it)
-    if (sessionId) {
-      saveConversation(supabase, sessionId, messages).catch(() => 
+    if (sessionId && userId) {
+      saveConversation(supabase, sessionId, userId, messages).catch(() => 
         console.error('Error saving conversation')
       );
     }
@@ -202,7 +224,7 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
 });
 
 // Function to save conversation to database
-async function saveConversation(supabase: any, sessionId: string, messages: any[]) {
+async function saveConversation(supabase: any, sessionId: string, userId: string, messages: any[]) {
   try {
     // Extract user name from messages if available
     let userName = null;
@@ -220,6 +242,7 @@ async function saveConversation(supabase: any, sessionId: string, messages: any[
       .from('conversations')
       .select('id, messages')
       .eq('session_id', sessionId)
+      .eq('user_id', userId)
       .single();
 
     if (existing) {
@@ -237,6 +260,7 @@ async function saveConversation(supabase: any, sessionId: string, messages: any[
         .from('conversations')
         .insert({
           session_id: sessionId,
+          user_id: userId,
           messages: messages,
           workflow_proposal: workflowProposal
         })
@@ -245,7 +269,7 @@ async function saveConversation(supabase: any, sessionId: string, messages: any[
 
       // Analyze and create insights if we have enough data
       if (messages.length >= 4) {
-        analyzeAndSaveInsights(supabase, newConv.id, messages).catch(() =>
+        analyzeAndSaveInsights(supabase, newConv.id, userId, messages).catch(() =>
           console.error('Error analyzing conversation')
         );
       }
@@ -256,7 +280,7 @@ async function saveConversation(supabase: any, sessionId: string, messages: any[
 }
 
 // Function to analyze conversation and extract insights
-async function analyzeAndSaveInsights(supabase: any, conversationId: string, messages: any[]) {
+async function analyzeAndSaveInsights(supabase: any, conversationId: string, userId: string, messages: any[]) {
   try {
     // Simple pattern matching to extract insights
     const conversationText = messages.map(m => m.content).join(' ').toLowerCase();
@@ -283,6 +307,7 @@ async function analyzeAndSaveInsights(supabase: any, conversationId: string, mes
       .from('conversation_insights')
       .insert({
         conversation_id: conversationId,
+        user_id: userId,
         industry,
         automation_complexity: complexity,
         estimated_hours: estimatedHours,
@@ -294,25 +319,25 @@ async function analyzeAndSaveInsights(supabase: any, conversationId: string, mes
 }
 
 // Rate limiting function
-async function checkRateLimit(supabase: any, sessionId: string, req: Request): Promise<{ allowed: boolean; message: string }> {
+async function checkRateLimit(supabase: any, sessionId: string, userId: string, req: Request): Promise<{ allowed: boolean; message: string }> {
   try {
     const oneHourAgo = new Date(Date.now() - 3600000);
     const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
                      req.headers.get('x-real-ip') || 
                      'unknown';
 
-    // Check session-based limits
-    const { data: sessionLimit } = await supabase
+    // Check user-based limits (primary rate limit)
+    const { data: userLimit } = await supabase
       .from('rate_limits')
       .select('*')
-      .eq('session_id', sessionId)
+      .eq('user_id', userId)
       .single();
 
-    if (sessionLimit) {
-      const lastRequest = new Date(sessionLimit.last_request);
+    if (userLimit) {
+      const lastRequest = new Date(userLimit.last_request);
       
-      // Session limit: 15 messages per hour
-      if (sessionLimit.request_count >= 15 && lastRequest > oneHourAgo) {
+      // User limit: 15 messages per hour
+      if (userLimit.request_count >= 15 && lastRequest > oneHourAgo) {
         return {
           allowed: false,
           message: 'Rate limit exceeded. Please wait before sending more messages.'
@@ -320,35 +345,23 @@ async function checkRateLimit(supabase: any, sessionId: string, req: Request): P
       }
 
       // Update existing record
-      const newCount = lastRequest > oneHourAgo ? sessionLimit.request_count + 1 : 1;
+      const newCount = lastRequest > oneHourAgo ? userLimit.request_count + 1 : 1;
       await supabase.from('rate_limits').upsert({
         session_id: sessionId,
+        user_id: userId,
         request_count: newCount,
         last_request: new Date(),
-        first_request: lastRequest > oneHourAgo ? sessionLimit.first_request : new Date(),
+        first_request: lastRequest > oneHourAgo ? userLimit.first_request : new Date(),
         client_ip: clientIP
       });
     } else {
       // Create new rate limit record
       await supabase.from('rate_limits').insert({
         session_id: sessionId,
+        user_id: userId,
         request_count: 1,
         client_ip: clientIP
       });
-    }
-
-    // Check IP-based limits: 5 sessions per hour
-    const { data: ipSessions, error: ipError } = await supabase
-      .from('rate_limits')
-      .select('session_id')
-      .eq('client_ip', clientIP)
-      .gte('first_request', oneHourAgo.toISOString());
-
-    if (!ipError && ipSessions && ipSessions.length > 5) {
-      return {
-        allowed: false,
-        message: 'Too many sessions from your location. Please try again later.'
-      };
     }
 
     return { allowed: true, message: '' };

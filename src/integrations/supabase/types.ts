@@ -25,6 +25,7 @@ export type Database = {
           key_technologies: string[] | null
           pain_points: string[] | null
           similar_cases_count: number | null
+          user_id: string | null
         }
         Insert: {
           automation_complexity?: string | null
@@ -36,6 +37,7 @@ export type Database = {
           key_technologies?: string[] | null
           pain_points?: string[] | null
           similar_cases_count?: number | null
+          user_id?: string | null
         }
         Update: {
           automation_complexity?: string | null
@@ -47,6 +49,7 @@ export type Database = {
           key_technologies?: string[] | null
           pain_points?: string[] | null
           similar_cases_count?: number | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -68,6 +71,7 @@ export type Database = {
           session_id: string
           updated_at: string
           user_contact: string | null
+          user_id: string | null
           user_name: string | null
           workflow_proposal: string | null
         }
@@ -80,6 +84,7 @@ export type Database = {
           session_id: string
           updated_at?: string
           user_contact?: string | null
+          user_id?: string | null
           user_name?: string | null
           workflow_proposal?: string | null
         }
@@ -92,6 +97,7 @@ export type Database = {
           session_id?: string
           updated_at?: string
           user_contact?: string | null
+          user_id?: string | null
           user_name?: string | null
           workflow_proposal?: string | null
         }
@@ -105,6 +111,7 @@ export type Database = {
           last_request: string | null
           request_count: number | null
           session_id: string
+          user_id: string | null
         }
         Insert: {
           client_ip?: string | null
@@ -113,6 +120,7 @@ export type Database = {
           last_request?: string | null
           request_count?: number | null
           session_id: string
+          user_id?: string | null
         }
         Update: {
           client_ip?: string | null
@@ -121,6 +129,7 @@ export type Database = {
           last_request?: string | null
           request_count?: number | null
           session_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
