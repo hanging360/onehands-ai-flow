@@ -6,7 +6,7 @@ export const CTA = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-24 bg-gradient-to-br from-primary/95 to-accent-foreground/95 backdrop-blur-sm text-primary-foreground">
+    <section className="py-24 bg-gradient-to-br from-primary/60 to-accent-foreground/60 backdrop-blur-sm text-primary-foreground">
       <div className="container px-4 mx-auto">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-3xl md:text-5xl font-bold leading-tight">
