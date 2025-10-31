@@ -62,11 +62,6 @@ export const AIChatDemo = () => {
       (event, currentSession) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
-        
-        // Redirect to auth if logged out
-        if (!currentSession) {
-          navigate("/auth");
-        }
       }
     );
 
@@ -74,15 +69,10 @@ export const AIChatDemo = () => {
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
-      
-      // Redirect to auth if not logged in
-      if (!currentSession) {
-        navigate("/auth");
-      }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -99,7 +89,18 @@ export const AIChatDemo = () => {
   };
 
   const sendMessage = async () => {
-    if (!input.trim() || isLoading || !session) return;
+    if (!input.trim() || isLoading) return;
+
+    // Redirect to auth if not logged in
+    if (!session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to use the chat.",
+        variant: "default",
+      });
+      navigate("/auth");
+      return;
+    }
 
     const userMessage: Message = { role: "user", content: input };
     const updatedMessages = [...messages, userMessage];
@@ -273,17 +274,28 @@ export const AIChatDemo = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold">OneHands AI Assistant</h3>
-                <p className="text-xs text-white/80">Online</p>
+                <p className="text-xs text-white/80">{session ? "Online" : "Please log in to chat"}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleSignOut}
-                className="text-white hover:bg-white/20"
-                title="Sign Out"
-              >
-                <LogOut className="w-5 h-5" />
-              </Button>
+              {session ? (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleSignOut}
+                  className="text-white hover:bg-white/20"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-5 h-5" />
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="text-white hover:bg-white/20"
+                >
+                  Log In
+                </Button>
+              )}
             </div>
 
             {/* WhatsApp chat pattern background */}
@@ -384,13 +396,13 @@ export const AIChatDemo = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={!session ? "Please log in..." : "Type a message..."}
-                disabled={isLoading || !session}
+                placeholder={!session ? "Log in to start chatting..." : "Type a message..."}
+                disabled={isLoading}
                 className="flex-1 bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
               />
               <Button
                 onClick={sendMessage}
-                disabled={!input.trim() || isLoading || !session}
+                disabled={!input.trim() || isLoading}
                 size="icon"
                 className="flex-shrink-0 bg-[#25D366] hover:bg-[#20BD5C] text-white"
               >
