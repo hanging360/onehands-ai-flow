@@ -26,25 +26,18 @@ serve(async (req) => {
   }
 
   try {
-    // Get user ID from JWT token (already validated by Supabase)
+    // Get user ID from JWT token if available (optional for anonymous users)
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'Missing authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Parse JWT to get user ID
-    const token = authHeader.replace('Bearer ', '');
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const userId = payload.sub;
-
-    if (!userId) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid token' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    let userId = null;
+    
+    if (authHeader) {
+      try {
+        const token = authHeader.replace('Bearer ', '');
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        userId = payload.sub;
+      } catch (error) {
+        console.log('Could not parse auth token, continuing as anonymous');
+      }
     }
 
     // Validate request data
@@ -67,13 +60,15 @@ serve(async (req) => {
       throw new Error('Service configuration error');
     }
 
-    // Rate limiting check
-    const rateLimitResult = await checkRateLimit(supabase, sessionId, userId, req);
-    if (!rateLimitResult.allowed) {
-      return new Response(
-        JSON.stringify({ error: rateLimitResult.message }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    // Rate limiting check (only if user is authenticated)
+    if (userId) {
+      const rateLimitResult = await checkRateLimit(supabase, sessionId, userId, req);
+      if (!rateLimitResult.allowed) {
+        return new Response(
+          JSON.stringify({ error: rateLimitResult.message }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     // Get historical insights to improve responses
@@ -184,7 +179,7 @@ Only provide the WhatsApp button after you've understood their workflow, evaluat
       throw new Error(`AI Gateway error: ${response.status}`);
     }
 
-    // Save conversation asynchronously (don't wait for it)
+    // Save conversation asynchronously only if user is authenticated
     if (sessionId && userId) {
       saveConversation(supabase, sessionId, userId, messages).catch(() => 
         console.error('Error saving conversation')

@@ -91,17 +91,6 @@ export const AIChatDemo = () => {
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
-    // Redirect to auth if not logged in
-    if (!session) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to use the chat.",
-        variant: "default",
-      });
-      navigate("/auth");
-      return;
-    }
-
     const userMessage: Message = { role: "user", content: input };
     const updatedMessages = [...messages, userMessage];
     
@@ -116,17 +105,13 @@ export const AIChatDemo = () => {
     setShowExamples(false);
 
     try {
-      if (!session) {
-        throw new Error("No active session");
-      }
-
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${session.access_token}`,
+            ...(session ? { "Authorization": `Bearer ${session.access_token}` } : {}),
           },
           body: JSON.stringify({
             messages: updatedMessages.map((m) => ({
@@ -274,9 +259,9 @@ export const AIChatDemo = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold">OneHands AI Assistant</h3>
-                <p className="text-xs text-white/80">{session ? "Online" : "Please log in to chat"}</p>
+                <p className="text-xs text-white/80">Online</p>
               </div>
-              {session ? (
+              {session && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -285,15 +270,6 @@ export const AIChatDemo = () => {
                   title="Sign Out"
                 >
                   <LogOut className="w-5 h-5" />
-                </Button>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate("/auth")}
-                  className="text-white hover:bg-white/20"
-                >
-                  Log In
                 </Button>
               )}
             </div>
@@ -396,7 +372,7 @@ export const AIChatDemo = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={!session ? "Log in to start chatting..." : "Type a message..."}
+                placeholder="Type a message..."
                 disabled={isLoading}
                 className="flex-1 bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
               />
