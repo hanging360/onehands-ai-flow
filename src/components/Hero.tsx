@@ -16,7 +16,7 @@ export const Hero = () => {
 
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/80 to-background/80 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/30 to-background/50" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-foreground/10 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
