@@ -33,7 +33,7 @@ export const AIValueProposition = () => {
   const whatsappUrl = `https://wa.me/17869606797?text=${whatsappMessage}`;
 
   return (
-    <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-accent/5 relative overflow-hidden">
+    <section className="py-24 bg-primary/5 backdrop-blur-sm relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="container px-4 mx-auto relative z-10">
