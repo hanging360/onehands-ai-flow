@@ -153,6 +153,21 @@ export const AIChatDemo = () => {
                 const content = parsed.choices?.[0]?.delta?.content;
                 if (content) {
                   assistantMessage += content;
+                  
+                  // Check if AI is closing the conversation
+                  if (assistantMessage.includes("[CLOSE_CONVERSATION]")) {
+                    setMessages((prev) => [
+                      ...prev,
+                      {
+                        role: "assistant",
+                        content: "This conversation has been closed due to inappropriate usage. Please start a new conversation if you have genuine automation needs.",
+                      },
+                    ]);
+                    setIsLoading(false);
+                    setInput("");
+                    return;
+                  }
+                  
                   setMessages((prev) => {
                     const newMessages = [...prev];
                     const lastMessage = newMessages[newMessages.length - 1];
